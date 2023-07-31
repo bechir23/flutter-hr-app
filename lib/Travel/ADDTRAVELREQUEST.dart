@@ -1,41 +1,46 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/task/valuecheckbox.dart';
+import 'package:myapp/Travel/traveldata.dart';
 import 'package:provider/provider.dart';
 
-class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
+class addtravelrequest extends StatefulWidget {
+  const addtravelrequest({super.key});
 
   @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState();
+  State<addtravelrequest> createState() => _addtravelrequestState();
 }
 
-class _AddTaskScreenState extends State<AddTaskScreen> {
+class _addtravelrequestState extends State<addtravelrequest> {
+ 
   final user=FirebaseAuth.instance.currentUser! ; 
       DateTime date=DateTime.now();  DateTime date1=DateTime.now();
 
 //  final _emailcontroller=TextEditingController();
-    final _taskcontroller=TextEditingController();
-      final _descriptioncontroller=TextEditingController();
+    final _departmentcontroller=TextEditingController();
+      final _placecontroller=TextEditingController();
+            final _purposecontroller=TextEditingController();int i=0; 
+
      DateTime e=DateTime.now(); DateTime f=DateTime.now();bool isLoading=false ;
 
-       // final _startcontroller=TextEditingController();
+       final _durationcontroller=TextEditingController();
         //  final _duecontroller=TextEditingController();
 
 // ignore: non_constant_identifier_names
-Future Submit(String a,String b,String c,DateTime d,DateTime e,DateTime f,String g)
+Future Submit(String a,String b,String c,DateTime d,DateTime e,DateTime f,String g,String h,int i)
 async{
   FirebaseFirestore firestore=FirebaseFirestore.instance;
-  await firestore.collection('post').add(
+  await firestore.collection('travelrequest').add(
   {
 'email':a,
-'task':b,
-'description':c,
+'department':b,
+'place':c,
 'time':d,
-'start':e,
-'due':f,
-'priority':g
+'deperature':e,
+'arrival':f,
+'purpose':g,
+'duration':h,
+'travelid':i,
 
   }
   );
@@ -52,10 +57,10 @@ async{
       child:   Column(children: [
       
       ListTile(textColor: Colors.pink,leading: IconButton(icon:const Icon(Icons.cancel),onPressed:() {
-       Navigator.pop(context);}),title: const Text('Task')),
+       Navigator.pop(context);}),title: const Text('Request')),
       
       
-      const Text('Task Owner'),
+      const Text('Travel ID'),
       
       Text(user.email != null ? user.email! : 'not enregistred')
       
@@ -65,25 +70,25 @@ async{
       
       
       
-      const Text('Task Name'),
+      const Text('Employee department'),
       
-      TextField(textAlign: TextAlign.center,autofocus: true,controller: _taskcontroller,),
-      
-      const SizedBox(height: 20,),
-      
-      
-      
-      
-      
-      const Text('Description'),
-      
-      TextField(textAlign: TextAlign.center,autofocus: true,controller: _descriptioncontroller,),
+      TextField(textAlign: TextAlign.center,autofocus: true,controller: _departmentcontroller,),
       
       const SizedBox(height: 20,),
       
       
       
-      const Text('Start Date'),
+      
+      
+      const Text('Place of visit'),
+      
+      TextField(textAlign: TextAlign.center,autofocus: true,controller: _placecontroller,),
+      
+      const SizedBox(height: 20,),
+      
+      
+      
+      const Text('Expected date of deperature'),
       
       Text('${date.day}/${date.month}/${date.year}'),
       
@@ -97,11 +102,11 @@ async{
       
       }
       
-      , icon:const Icon(Icons.calendar_today),label: const Text('To Start',style: TextStyle(fontSize: 20),),),
+      , icon:const Icon(Icons.calendar_today),label: const Text('Deperature',style: TextStyle(fontSize: 20),),),
       
       const SizedBox(height: 20,),
       
-      const Text('Due Date'),
+      const Text('Expected date of arrival'),
       
       Text('${date1.day}/${date1.month}/${date1.year}'),
       
@@ -115,18 +120,30 @@ async{
       
       }
       
-      , icon:const Icon(Icons.calendar_today),label: const Text('Due Date',style: TextStyle(fontSize: 20),),),
+      , icon:const Icon(Icons.calendar_today),label: const Text('Arrival',style: TextStyle(fontSize: 20),),),
       const SizedBox(height: 20,),
+      const Text('Duration'),
       
-      ListTile(title: const Text('Priority'),trailing: IconButton(onPressed: ()
-      {
-      setState(() {
-        Navigator.pushNamed(context,'priority' );
+      TextField(textAlign: TextAlign.center,autofocus: true,controller: _durationcontroller,),
+      
+      const SizedBox(height: 20,),
+      const Text('Purpose'),
+      
+      TextField(textAlign: TextAlign.center,autofocus: true,controller: _purposecontroller,),
+      
+      
+      
+      
+      
+      //ListTile(title: const Text('Priority'),trailing: IconButton(onPressed: ()
+      //{
+      //setState(() {
+        //Navigator.pushNamed(context,'priority' );
         
-      });
-      }
-      , icon: const Icon(Icons.navigate_next)),),
-      Text(Provider.of<check>(context).scale),
+      //});
+      //}
+      //, icon: const Icon(Icons.navigate_next)),),
+      //Text(Provider.of<check>(context).scale),
       
       
       
@@ -155,8 +172,11 @@ async{
           onTap: (){
              setState(() { 
             isLoading=true ;
+            
           });
-          Submit(user.email ?? 'not enregistred',_taskcontroller.text,_descriptioncontroller.text,date,e,f,Provider.of<check>(context,listen: false).scale ).then((value){Navigator.pop(context);});
+          Provider.of<traveldata>(context,listen:false).increment(_placecontroller.text, _purposecontroller.text);
+          
+          Submit(user.email ?? 'not enregistred',_departmentcontroller.text,_placecontroller.text,date,e,f,_purposecontroller.text,_durationcontroller.text,i ).then((value){Navigator.pop(context);});
         },
           child: Padding(
             padding: const EdgeInsets.all(12.0),

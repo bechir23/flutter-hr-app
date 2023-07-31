@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/widget.dart';
-import 'package:myapp/task/TaskScreen.dart';
 class TaskData extends ChangeNotifier{
 List<Task>tasks=[
   Task(name:'Leave Tracker',press:''),
@@ -12,7 +11,7 @@ List<Task>tasks=[
 ,
   Task(name: 'Organization',press: '')
 ,
-  Task(name: 'Travel',press: '')
+  Task(name: 'Travel',press: 'travel')
 ,
   Task(name: 'Compensation',press: '')
 ,

@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/task/TaskScreen.dart';
 
 class NewTask extends StatelessWidget {
   final String name;
   final String press;
-  NewTask({required this.name,required this.press});
+  const NewTask({super.key, required this.name,required this.press});
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(100),
-      child: Container(
-        
-        decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.all( Radius.circular(20))),
-        
-        child: GestureDetector(
-          onTap: (){Navigator.pushNamed(context, press);},
+      padding: const EdgeInsets.all(100),
+      child: GestureDetector(
+        onTap: (){Navigator.pushNamed(context, press);},
+        child: Container(
+            decoration: const BoxDecoration(color: Colors.white,borderRadius: BorderRadius.all( Radius.circular(20))),
           child: Column(
+           
             mainAxisAlignment: MainAxisAlignment.center,
             
             children:[
-             Icon(
+             const Icon(
               Icons.airplane_ticket,
              ),
               
-              SizedBox(height: 10,),
-               Text(name!,textAlign:TextAlign.center,
-            style:TextStyle(fontSize: 50,fontWeight: FontWeight.bold))]
+              const SizedBox(height: 10,),
+               Text(name,textAlign:TextAlign.center,
+            style:const TextStyle(fontSize: 50,fontWeight: FontWeight.bold))]
           ),
         ),
       ),

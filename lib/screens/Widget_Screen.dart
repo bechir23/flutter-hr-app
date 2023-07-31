@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myapp/models/widgetlist.dart';
 
 class TasksScreen extends StatefulWidget {
+  const TasksScreen({super.key});
+
   
   @override
   State<TasksScreen> createState() => _TasksScreenState();
@@ -10,8 +12,8 @@ class TasksScreen extends StatefulWidget {
 class _TasksScreenState extends State<TasksScreen> {
   int index=0;
 final pages=[
-Text('Ho;e'),
-   Column(
+const Text('Ho;e'),
+   const Column(
   
     children: [Center(child: Text('Services',style:TextStyle(fontSize: 50,color: Colors.white))),
   
@@ -20,7 +22,7 @@ Text('Ho;e'),
     ],
   
   ),
-Text('approval'),Text('seetings')];
+const Text('approval'),const Text('seetings')];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,7 @@ Text('approval'),Text('seetings')];
          this.index=index; 
         }),
         height: 60,
-        destinations:[
+        destinations:const [
 NavigationDestination(icon:Icon( Icons.home_outlined), label:'Home',selectedIcon: Icon(Icons.home)),
 NavigationDestination(icon:Icon( Icons.room_service_outlined), label:'Services',selectedIcon: Icon(Icons.room_service)),
 NavigationDestination(icon:Icon( Icons.approval_outlined), label:'MyApprovals',selectedIcon: Icon(Icons.approval)),
@@ -47,7 +49,7 @@ NavigationDestination(icon:Icon( Icons.settings_accessibility_outlined), label:'
         //action: ,
         //leading,
         //),
-        backgroundColor:      Color.fromARGB(255, 223, 75, 124),
+        backgroundColor:      const Color.fromARGB(255, 223, 75, 124),
 
        
     )
