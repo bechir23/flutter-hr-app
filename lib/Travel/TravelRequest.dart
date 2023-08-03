@@ -16,7 +16,11 @@ class _travelrequestState extends State<travelrequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-         body:StreamBuilder<QuerySnapshot>(
+         body:
+         
+         
+         
+         StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('travelrequest').orderBy('time').snapshots(),
       builder:(BuildContext context,AsyncSnapshot <QuerySnapshot> snapshot )
       {
@@ -70,7 +74,9 @@ class _travelrequestState extends State<travelrequest> {
 
         
       
-      appBar: AppBar(centerTitle:true,title: const Text('Travel Request',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),),
+      appBar: AppBar(centerTitle:true,title: const Text('Travel Request',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {Navigator.pop(context);
+        
+      },),),
       
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
      floatingActionButton: FloatingActionButton(onPressed:()
@@ -99,6 +105,6 @@ class _travelrequestState extends State<travelrequest> {
     )
     
       
-    ;;
+    ;
   }
 }

@@ -13,19 +13,20 @@ class _TasksScreenState extends State<TasksScreen> {
   int index=0;
 final pages=[
 const Text('Ho;e'),
-   const Column(
+   
   
-    children: [Center(child: Text('Services',style:TextStyle(fontSize: 50,color: Colors.white))),
+           Scaffold(   appBar: AppBar(centerTitle:true,title:const  Text('List of Taks',style:  TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),),
+      
+      backgroundColor: const Color.fromARGB(255, 223, 130, 161),body: TasksList(),),
   
-           Expanded(child: TasksList()),
+    
   
-    ],
   
-  ),
 const Text('approval'),const Text('seetings')];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
        body: pages[index],
       bottomNavigationBar: NavigationBar(
         selectedIndex: index,
@@ -49,7 +50,8 @@ NavigationDestination(icon:Icon( Icons.settings_accessibility_outlined), label:'
         //action: ,
         //leading,
         //),
-        backgroundColor:      const Color.fromARGB(255, 223, 75, 124),
+       
+      backgroundColor: const Color.fromARGB(255, 223, 130, 161),
 
        
     )

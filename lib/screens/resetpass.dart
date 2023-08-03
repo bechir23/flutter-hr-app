@@ -46,9 +46,9 @@ content: Text(e.message.toString()),
   Widget build(BuildContext context) {
     
     return  Scaffold(
-      appBar: AppBar(leading: IconButton(icon: Icon(Icons.exit_to_app),onPressed: () {
+      appBar: AppBar(leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {
         Navigator.pop(context) ;
-      },), backgroundColor: Color.fromARGB(255, 223, 130, 161),),
+      },), backgroundColor: const Color.fromARGB(255, 223, 130, 161),),
  backgroundColor:  const Color.fromARGB(255, 224, 101, 142),
  body: Center(
    child: SingleChildScrollView(
@@ -64,7 +64,7 @@ content: Text(e.message.toString()),
         padding: const EdgeInsets.all(12.0),
         child: Container(
           decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: Colors.white,),
-          child:  TextField(controller:_emailcontroller,decoration: InputDecoration(hintText: 'EMAIL'),)),
+          child:  TextField(controller:_emailcontroller,decoration: const InputDecoration(hintText: 'EMAIL'),)),
       ), 
     const SizedBox(height: 20,),
       GestureDetector(

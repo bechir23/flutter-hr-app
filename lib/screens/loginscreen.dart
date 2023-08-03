@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   
   @override
   State<Login> createState() => _LoginState();
@@ -41,12 +43,12 @@ _passcontroller.dispose();
         padding: const EdgeInsets.all(12.0),
         child: Container(
           decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: Colors.white,),
-          child:  TextField(controller:_emailcontroller,decoration: InputDecoration(hintText: 'EMAIL'),)),
+          child:  TextField(controller:_emailcontroller,decoration: const InputDecoration(hintText: 'EMAIL'),)),
       ),  Padding (
         padding: const EdgeInsets.all(12.0),
         child: Container(
           decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: Colors.white,),
-          child:  TextField(controller:_passcontroller,decoration: InputDecoration(hintText: 'PASSWORD'),)),
+          child:  TextField(controller:_passcontroller,decoration: const InputDecoration(hintText: 'PASSWORD'),)),
       ),
     const SizedBox(height: 20,),
       GestureDetector(

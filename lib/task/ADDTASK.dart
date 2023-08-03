@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:myapp/task/addtaskscreen.dart';
 import 'package:myapp/task/alltasks.dart';
 import 'package:myapp/task/mytasks.dart';
+import 'package:myapp/task/valuecheckbox.dart';
+import 'package:provider/provider.dart';
 
 class AddTask extends StatefulWidget {
   static const String screenroute='welcome';
@@ -52,7 +54,8 @@ NavigationDestination(icon:Icon( Icons.library_add), label:'All Tasks'),
       
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
      floatingActionButton: FloatingActionButton(onPressed:()
-     {showModalBottomSheet(isScrollControlled: true,context: context, builder: (context) => 
+     {Provider.of<check>(context,listen: false).init();
+      showModalBottomSheet(isScrollControlled: true,context: context, builder: (context) => 
      SingleChildScrollView(
     
      child: Container(

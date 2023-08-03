@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/Travel/traveldata.dart';
-import 'package:provider/provider.dart';
+
 
 class addtravelrequest extends StatefulWidget {
   const addtravelrequest({super.key});
@@ -19,6 +18,8 @@ class _addtravelrequestState extends State<addtravelrequest> {
 //  final _emailcontroller=TextEditingController();
     final _departmentcontroller=TextEditingController();
       final _placecontroller=TextEditingController();
+            final _travelidcontroller=TextEditingController();
+
             final _purposecontroller=TextEditingController();int i=0; 
 
      DateTime e=DateTime.now(); DateTime f=DateTime.now();bool isLoading=false ;
@@ -60,7 +61,7 @@ async{
        Navigator.pop(context);}),title: const Text('Request')),
       
       
-      const Text('Travel ID'),
+      const Text('Email'),
       
       Text(user.email != null ? user.email! : 'not enregistred')
       
@@ -130,8 +131,11 @@ async{
       const Text('Purpose'),
       
       TextField(textAlign: TextAlign.center,autofocus: true,controller: _purposecontroller,),
-      
-      
+            const SizedBox(height: 20,),
+
+       const Text('Travelid'),
+             TextField(textAlign: TextAlign.center,autofocus: true,controller: _travelidcontroller,),
+
       
       
       
@@ -174,9 +178,9 @@ async{
             isLoading=true ;
             
           });
-          Provider.of<traveldata>(context,listen:false).increment(_placecontroller.text, _purposecontroller.text);
+        //  Provider.of<traveldata>(context,listen:false).increment(_placecontroller.text, _purposecontroller.text);
           
-          Submit(user.email ?? 'not enregistred',_departmentcontroller.text,_placecontroller.text,date,e,f,_purposecontroller.text,_durationcontroller.text,i ).then((value){Navigator.pop(context);});
+          Submit(user.email ?? 'not enregistred',_departmentcontroller.text,_placecontroller.text,date,e,f,_purposecontroller.text,_durationcontroller.text,int.parse(_travelidcontroller.text)).then((value){Navigator.pop(context);});
         },
           child: Padding(
             padding: const EdgeInsets.all(12.0),

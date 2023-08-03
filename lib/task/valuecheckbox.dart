@@ -10,4 +10,5 @@ void Done()
  values[0]? scale='High':values[1]? scale='Moderate':scale='Low';
  notifyListeners(); 
 }
+void init() {values=[false,false,false];scale='low';notifyListeners();}
 }

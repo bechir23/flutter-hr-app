@@ -5,7 +5,7 @@ class traveldetails extends StatelessWidget {
   static const String screenroute='traveldetails';
   final  Map <String, dynamic>  m ;
    final String  d  ;
-    
+   
    const traveldetails({super.key, required this.m, required this.d} ); 
   
 

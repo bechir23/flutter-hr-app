@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/Travel/ADDTRAVELEXPENSE.dart';
+import 'package:myapp/Travel/detailsdata.dart';
 import 'package:myapp/Travel/expensedetails.dart';
+import 'package:provider/provider.dart';
+
 
 class travelexpense extends StatefulWidget {
       static const String screenroute='expense'; 
@@ -13,6 +16,20 @@ class travelexpense extends StatefulWidget {
 }
 
 class _travelexpenseState extends State<travelexpense> {
+  Future clearCollection() async {
+  CollectionReference collectionRef = FirebaseFirestore.instance.collection('SET');
+
+  QuerySnapshot snapshot = await collectionRef.get();
+
+  // Create a batch operation to delete all documents
+  WriteBatch batch = FirebaseFirestore.instance.batch();
+  for (var doc in snapshot.docs) {
+    batch.delete(doc.reference);
+  }
+
+  // Commit the batch operation
+  await batch.commit();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +47,13 @@ class _travelexpenseState extends State<travelexpense> {
              if (data['email'] == null) {
       return const SizedBox(); // You can return an empty widget or handle this case as per your requirement.
     }
+    int index = snapshot.data!.docs.indexWhere((doc) => doc.id == document.id);
             return TextButton(
               onPressed: () {
                 Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MyWidget(),//traveldetails(m: data, d: document.id),
+                builder: (context) => expensedetails(m: data, d: document.id,l:Provider.of<detailsdata>(context,listen: false).documents),
               ),
             
           
@@ -70,18 +88,22 @@ class _travelexpenseState extends State<travelexpense> {
 
         
       
-      appBar: AppBar(centerTitle:true,title: const Text('Travel Expense',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),),
+      appBar: AppBar(centerTitle:true,title: const Text('Travel Expense',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {Navigator.pop(context);
+        
+      })),
       
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
      floatingActionButton: FloatingActionButton(onPressed:()
-     {showModalBottomSheet(isScrollControlled: true,context: context, builder: (context) => 
+     {clearCollection();
+   showModalBottomSheet(isScrollControlled: true,context: context, builder: (context) => 
      SingleChildScrollView(
     
      child: Container(
       padding: EdgeInsets.only(bottom:MediaQuery.of(context).viewInsets.bottom,),
       child: const addtravelexpense()),
        
-     ));},
+     ));
+       },
     backgroundColor:Colors.white,
       child: const Icon(Icons.add,color: Colors.pink,),
           
