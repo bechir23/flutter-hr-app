@@ -22,22 +22,20 @@ class TaskDetails extends StatelessWidget {
    title: const Text('Details',style: TextStyle(color: Colors.white,fontSize: 40)),
    actions: [ IconButton(onPressed: (){FirebaseFirestore.instance.collection('post').doc(d).delete();
          Navigator.pop(context);}, icon: const Icon(Icons.done_all)),],
-   leading:Container(
-     child: Row(children: [
+   leading:Row(children: [
+   
      
-       
-      
+    
    Expanded(child: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.exit_to_app_rounded))),
    const SizedBox(width: 10,),
-     //email==d['email] ? .......:container 
-       Expanded(child: IconButton(onPressed: (){FirebaseFirestore.instance.collection('post').doc(d).delete();
-       Navigator.pop(context);}, icon: const Icon(Icons.delete)))
+   //email==d['email] ? .......:container 
+     Expanded(child: IconButton(onPressed: (){FirebaseFirestore.instance.collection('post').doc(d).delete();
+     Navigator.pop(context);}, icon: const Icon(Icons.delete)))
 
    
    
    
-     ]),
-   ),
+   ]),
 
 
 

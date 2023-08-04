@@ -6,6 +6,12 @@ import 'package:myapp/Travel/TravelScreen.dart';
 import 'package:myapp/Travel/addexpense.dart';
 import 'package:myapp/Travel/choosetravel.dart';
 import 'package:myapp/Travel/detailsdata.dart';
+import 'package:myapp/files/ADDFILE.dart';
+import 'package:myapp/files/employeedetails.dart';
+import 'package:myapp/files/fileview.dart';
+import 'package:myapp/files/folderdata.dart';
+import 'package:myapp/files/organizationdetails.dart';
+import 'package:myapp/files/view.dart';
 import 'package:myapp/models/WidgetData.dart';
 import 'package:myapp/models/traveldata.dart';
 import 'package:myapp/screens/Signup.dart';
@@ -36,8 +42,9 @@ class Myapp extends StatelessWidget {
     return MultiProvider(
       providers: [  ChangeNotifierProvider(   create: (context) => traveldata()),
                     ChangeNotifierProvider(   create: (context) => detailsdata()),
+ChangeNotifierProvider(create:(context) => fileview(),),
 
-
+                    ChangeNotifierProvider(   create: (context) => folderdata()),
 
         ChangeNotifierProvider(   create: (context) => TaskData()),
       ChangeNotifierProvider(   create: (context) => check())
@@ -60,6 +67,11 @@ class Myapp extends StatelessWidget {
                                         addexpenser.screenroute:(context) => const addexpenser(),
    choosetravel.screenroute: (context) => choosetravel( onAAndBChanged: (String newA, String newB) {  },),
                                            folder.screenroute:(context) => const folder(),
+                                           AddFILE.screenroute:(context) => const AddFILE(),
+ Organizationdetails.screenroute:(context) => const Organizationdetails(m: {}, d: ''),
+ view.screenroute:(context) => const view(),
+
+ employeedetails.screenroute:(context) => const employeedetails(m:{},d:''),
 
           // a: 'default_a_value', b: 'default_b_value',
   

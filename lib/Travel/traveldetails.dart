@@ -17,22 +17,20 @@ class traveldetails extends StatelessWidget {
     appBar: AppBar(centerTitle: true,backgroundColor: const Color.fromARGB(255, 192, 109, 137),
    title: const Text('Details',style: TextStyle(color: Colors.white,fontSize: 40)),
   
-   leading:Container(
-     child: Row(children: [
+   leading:Row(children: [
+   
      
-       
-      
+    
    Expanded(child: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.exit_to_app_rounded))),
    const SizedBox(width: 10,),
-     //email==d['email] ? .......:container 
-       Expanded(child: IconButton(onPressed: (){FirebaseFirestore.instance.collection('travelrequest').doc(d).delete();
-       Navigator.pop(context);}, icon: const Icon(Icons.delete)))
+   //email==d['email] ? .......:container 
+     Expanded(child: IconButton(onPressed: (){FirebaseFirestore.instance.collection('travelrequest').doc(d).delete();
+     Navigator.pop(context);}, icon: const Icon(Icons.delete)))
 
    
    
    
-     ]),
-   ),
+   ]),
 
 
 

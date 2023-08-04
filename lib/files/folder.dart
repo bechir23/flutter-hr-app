@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/files/ADDFILE.dart';
+import 'package:myapp/files/folderdata.dart';
+import 'package:provider/provider.dart';
+
+import 'addfolder.dart';
 
 class folder extends StatefulWidget {
   static const String screenroute='folder';
@@ -20,7 +23,7 @@ class _folderState extends State<folder> {
           setState(() {
          
 showDialog(context: context, builder:(BuildContext  context) {
-  return const AddFILE();
+  return const addfolder();
 })     ; 
         });
         
@@ -44,22 +47,25 @@ showDialog(context: context, builder:(BuildContext  context) {
         if (snapshot.connectionState==ConnectionState.waiting)
         {return const Center(child: CircularProgressIndicator());}
      
-        return ListView(
-          children: snapshot.data!.docs.map((DocumentSnapshot document)
-          {Map<String,dynamic> data =document.data()! as Map<String,dynamic> ;
+        return ListView.builder(itemCount: snapshot.data!.docs.length,
+        itemBuilder: (context, index) {
+          Provider.of<folderdata>(context,listen: false).values.add(false);
+        
+          DocumentSnapshot document= snapshot.data!.docs[index];
+          Map<String,dynamic> data =document.data()! as Map<String,dynamic> ;
              if (data['name'] == null) {
       return const SizedBox(); // You can return an empty widget or handle this case as per your requirement.
     }
             return ListTile(
-            title: Text(data['name']),trailing: Checkbox(value:false,onChanged: (value) {
+            title: Text(data['name']),trailing: Checkbox(value:Provider.of<folderdata>(context,listen: false).values[index],onChanged: (value) {
             setState(() {
                  
-    
+    Provider.of<folderdata>(context,listen: false).update(index, data['name']);
              
             });  
             },), 
           );
-          }).toList(),
+        },
                   
     
         );

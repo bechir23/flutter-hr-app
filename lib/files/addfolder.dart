@@ -1,7 +1,7 @@
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 
 class addfolder extends StatefulWidget {
   const addfolder({super.key});
@@ -29,9 +29,10 @@ async{
     return Dialog(
 child:Container( width: MediaQuery.of(context).size.width,
    decoration: const  BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)),color: Colors.white) ,
-   child:  Padding(padding: EdgeInsets.all(12.0),
+   child:  Padding(padding: const EdgeInsets.all(12.0),
      child: SingleChildScrollView(
        child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [
+             
      
      const Text('Folder Name',style: TextStyle(fontSize: 40,fontWeight: FontWeight.bold),),
   const   SizedBox(height: 5,),
@@ -41,8 +42,14 @@ child:Container( width: MediaQuery.of(context).size.width,
      Row(children: [
 Expanded(child: GestureDetector(onTap: () {
   Submit(_foldercontroller.text).then((value){Navigator.pop(context);});
-},child: const Text('OKAY',style: TextStyle(color: Colors.green),))),
-Expanded(child: GestureDetector(child: const Text('Cancel',style: TextStyle(color: Colors.red),)))
+},child: Padding(
+  padding: const EdgeInsets.all(12.0),
+  child:   Container(padding: const EdgeInsets.all(8.0),child: const Text('OKAY',style: TextStyle(color: Colors.green),)),
+))),
+Expanded(child: GestureDetector(child: Padding(
+  padding: const EdgeInsets.all(12.0),
+  child:   Container(padding: const EdgeInsets.all(8.0),child: const Text('Cancel',style: TextStyle(color: Colors.red),)),
+)))
 
      ],)
       

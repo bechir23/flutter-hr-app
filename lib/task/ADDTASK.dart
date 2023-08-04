@@ -22,7 +22,7 @@ final pages=[
   
   
   
-             Container(child: const mytasks()),    Container(child: const alltasks())
+             const mytasks(),    const alltasks()
   
     ];
   

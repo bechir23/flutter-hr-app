@@ -31,58 +31,56 @@ class _DegreeState extends State<Degree> {
         
       },),title: const Text('Priority',textAlign:TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 40),),),
         backgroundColor: const Color.fromARGB(255, 240, 128, 165),
-        body: Container(
-          child: ListView(
-          children:[ ListTile(
-            title: const Text('High'),trailing: Checkbox(value:Provider.of<check>(context,listen: false).values[0],onChanged: (value) {
-            setState(() {
-                     Provider.of<check>(context,listen: false).update(0, value!);
-                         Provider.of<check>(context,listen: false).update(1, false);
-              Provider.of<check>(context,listen: false).update(2, false);
-             
-          //    Provider.of<check>(context,listen: false).Done();
+        body: ListView(
+        children:[ ListTile(
+          title: const Text('High'),trailing: Checkbox(value:Provider.of<check>(context,listen: false).values[0],onChanged: (value) {
+          setState(() {
+                   Provider.of<check>(context,listen: false).update(0, value!);
+                       Provider.of<check>(context,listen: false).update(1, false);
+            Provider.of<check>(context,listen: false).update(2, false);
+           
+        //    Provider.of<check>(context,listen: false).Done();
     
     
-             
-            });  
-            },),
-          ),
-           ListTile(
-            title: const Text('Moderate'),trailing: Checkbox(value:  Provider.of<check>(context,listen: false).values[1],onChanged: (value) {
-                    setState(() {
-                   
-                    Provider.of<check>(context,listen: false).update(1, value!);
-                         Provider.of<check>(context,listen: false).update(2, false);
-              Provider.of<check>(context,listen: false).update(0, false);
-             //      Provider.of<check>(context,listen: false).Done();
-                      
-    
-                    });  
-      
-            },),
-          ),
-           ListTile(
-            title: const Text('Low'),trailing: Checkbox(value:  Provider.of<check>(context).values[2],onChanged: (value) {
-                   setState(() {
-                     Provider.of<check>(context,listen: false).update(2, value!);
-                         Provider.of<check>(context,listen: false).update(1, false);
-              Provider.of<check>(context,listen: false).update(0, false);
-              
-             // Provider.of<check>(context,listen: false).values[2]=value!;
-             //             Provider.of<check>(context,listen: false).values[0]=false;
-           //   Provider.of<check>(context,listen: false).values[1]=false;
-              
-    //Provider.of<check>(context,listen: false).Done();
-              
-                   
-            });
-                        
-      
-            },),
-          ),
-        
-          ]),
+           
+          });  
+          },),
         ),
+         ListTile(
+          title: const Text('Moderate'),trailing: Checkbox(value:  Provider.of<check>(context,listen: false).values[1],onChanged: (value) {
+                  setState(() {
+                 
+                  Provider.of<check>(context,listen: false).update(1, value!);
+                       Provider.of<check>(context,listen: false).update(2, false);
+            Provider.of<check>(context,listen: false).update(0, false);
+           //      Provider.of<check>(context,listen: false).Done();
+                    
+    
+                  });  
+      
+          },),
+        ),
+         ListTile(
+          title: const Text('Low'),trailing: Checkbox(value:  Provider.of<check>(context).values[2],onChanged: (value) {
+                 setState(() {
+                   Provider.of<check>(context,listen: false).update(2, value!);
+                       Provider.of<check>(context,listen: false).update(1, false);
+            Provider.of<check>(context,listen: false).update(0, false);
+            
+           // Provider.of<check>(context,listen: false).values[2]=value!;
+           //             Provider.of<check>(context,listen: false).values[0]=false;
+         //   Provider.of<check>(context,listen: false).values[1]=false;
+            
+    //Provider.of<check>(context,listen: false).Done();
+            
+                 
+          });
+                      
+      
+          },),
+        ),
+        
+        ]),
       );  
    
   } } 

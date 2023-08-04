@@ -1,6 +1,8 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/files/fileview.dart';
+import 'package:myapp/files/folderdata.dart';
+import 'package:provider/provider.dart';
 
 import 'addemployee.dart';
 import 'addorganization.dart';
@@ -23,7 +25,7 @@ final pages=[
   
   
   
-             Container(child: const organizationfiles()),    Container(child: const employeefiles())
+             const organizationfiles(),    const employeefiles()
   
     ];
   
@@ -55,7 +57,7 @@ NavigationDestination(icon:Icon( Icons.file_download_sharp), label:'Employee Fil
       
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
      floatingActionButton: FloatingActionButton(onPressed:()
-     {//Provider.of<check>(context,listen: false).init();
+     {Provider.of<folderdata>(context,listen: false).init();Provider.of<fileview>(context,listen: false).init();
       showModalBottomSheet(isScrollControlled: true,context: context, builder: (context) => 
      SingleChildScrollView(
     

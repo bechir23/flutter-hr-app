@@ -17,7 +17,7 @@ const Text('Ho;e'),
   
            Scaffold(   appBar: AppBar(centerTitle:true,title:const  Text('List of Taks',style:  TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),),
       
-      backgroundColor: const Color.fromARGB(255, 223, 130, 161),body: TasksList(),),
+      backgroundColor: const Color.fromARGB(255, 223, 130, 161),body: const TasksList(),),
   
     
   
