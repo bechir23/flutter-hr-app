@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class traveldetails extends StatelessWidget {
-  static const String screenroute='traveldetails';
-  final  Map <String, dynamic>  m ;
+class bonafidedetails extends StatelessWidget {
+  static const String screenroute='bonafidedetails';
+ 
+ final  Map <String, dynamic>  m ;
    final String  d  ;
-   
-   const traveldetails({super.key, required this.m, required this.d} ); 
+    
+   const bonafidedetails({super.key, required this.m, required this.d} ); 
   
 
 
@@ -16,15 +17,7 @@ class traveldetails extends StatelessWidget {
 
     appBar: AppBar(centerTitle: true,backgroundColor: const Color.fromARGB(255, 192, 109, 137),
    title: const Text('Details',style: TextStyle(color: Colors.white,fontSize: 40)),
-  
-   leading:Row(children: [
-   
-     
-    
-   Expanded(child: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.exit_to_app_rounded))),
-   const SizedBox(width: 30,),
-   //email==d['email] ? .......:container 
-      Expanded(
+   actions: [   Expanded(
       child: IconButton(
         onPressed: () {
           showDialog(
@@ -53,8 +46,8 @@ class traveldetails extends StatelessWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                   FirebaseFirestore.instance.collection('travelrequest').doc(d).delete();
-                                    Navigator.pushNamed(context, 'request');
+                                   FirebaseFirestore.instance.collection('bonafideletter').doc(d).delete();
+                                    Navigator.pushNamed(context, 'bonafide');
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(12.0),
@@ -93,11 +86,19 @@ class traveldetails extends StatelessWidget {
         icon: const Icon(Icons.delete),
       ),
     )
+     ],
+   leading:
+   
+     
+    
+   IconButton(onPressed: (){Navigator.pushNamed(context,'bonafide');}, icon: const Icon(Icons.exit_to_app_rounded)),
   
+   //email==d['email] ? .......:container 
+     
    
    
    
-   ]),
+   
 
 
 
@@ -109,26 +110,16 @@ class traveldetails extends StatelessWidget {
              const Text('email',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
             Text(m['email'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                          const Text('department',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-
-                              Text(m['department']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                                          const Text('place',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-
-              Text(m['place']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                          const Text('arrival',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
                                        
+                                  
+                                          const Text('Date of request',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-            Text('${m['arrival']?.toDate().year}-${m['arrival']?.toDate().month.toString().padLeft(2, '0')}-${m['arrival']?.toDate().day.toString().padLeft(2, '0')} ${m['arrival']?.toDate().hour.toString().padLeft(2, '0')}:${m['arrival']?.toDate().minute.toString().padLeft(2, '0')}:${m['arrival']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
-                                          const Text('deperature',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+        Text('${m['request']?.toDate().year}-${m['request']?.toDate().month.toString().padLeft(2, '0')}-${m['request']?.toDate().day.toString().padLeft(2, '0')} ${m['request']?.toDate().hour.toString().padLeft(2, '0')}:${m['request']?.toDate().minute.toString().padLeft(2, '0')}:${m['request']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
+                                          
+                                           const Text('Reason for request',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-        Text('${m['deperature']?.toDate().year}-${m['deperature']?.toDate().month.toString().padLeft(2, '0')}-${m['deperature']?.toDate().day.toString().padLeft(2, '0')} ${m['deperature']?.toDate().hour.toString().padLeft(2, '0')}:${m['deperature']?.toDate().minute.toString().padLeft(2, '0')}:${m['deperature']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
-                                          const Text('purpose',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-
-      Text(m['purpose']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                                 const Text('duration',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-      Text(m['duration']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-       
-       
+                              Text(m['reason']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+                            
         ]
 
 

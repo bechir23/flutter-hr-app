@@ -1,18 +1,15 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/task/valuecheckbox.dart';
+import 'package:myapp/compensation/typeassets.dart';
 import 'package:provider/provider.dart';
 
-
-
-class TaskDetails extends StatelessWidget {
-  static const  String screenroute='details';
-
+class assetdetails extends StatelessWidget {
+  static const String screenroute='assetdetails';
+ 
  final  Map <String, dynamic>  m ;
    final String  d  ;
     
-   const TaskDetails({super.key, required this.m, required this.d} ); 
+   const assetdetails({super.key, required this.m, required this.d} ); 
   
 
 
@@ -22,6 +19,8 @@ class TaskDetails extends StatelessWidget {
 
     appBar: AppBar(centerTitle: true,backgroundColor: const Color.fromARGB(255, 192, 109, 137),
    title: const Text('Details',style: TextStyle(color: Colors.white,fontSize: 40)),
+     
+
    actions: [    IconButton(
      onPressed: () {
        showDialog(
@@ -50,8 +49,8 @@ class TaskDetails extends StatelessWidget {
                            Expanded(
                              child: GestureDetector(
                                onTap: () {
-                                FirebaseFirestore.instance.collection('post').doc(d).delete();
-                                 Navigator.pushNamed(context, 'welcome');
+                                FirebaseFirestore.instance.collection('tabasset').doc(d).delete();
+                                 Navigator.pushNamed(context, 'asset');
                                },
                                child: Padding(
                                  padding: const EdgeInsets.all(12.0),
@@ -88,8 +87,10 @@ class TaskDetails extends StatelessWidget {
        );
      },
      icon: const Icon(Icons.delete),
-   ),],
-   leading:IconButton(onPressed: (){Navigator.pushNamed(context,'welcome');}, icon: const Icon(Icons.exit_to_app_rounded)),
+   ),
+  ],
+
+   leading:IconButton(onPressed: (){Navigator.pushNamed(context,'asset');}, icon: const Icon(Icons.exit_to_app_rounded)),
 
 
 
@@ -101,23 +102,22 @@ class TaskDetails extends StatelessWidget {
              const Text('email',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
             Text(m['email'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                          const Text('task',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-
-                              Text(m['task']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                                          const Text('description',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-
-              Text(m['description']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                          const Text('start',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+                                     
+                                 const Text('Given Date',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
                                        
 
-            Text('${m['start']?.toDate().year}-${m['start']?.toDate().month.toString().padLeft(2, '0')}-${m['start']?.toDate().day.toString().padLeft(2, '0')} ${m['start']?.toDate().hour.toString().padLeft(2, '0')}:${m['start']?.toDate().minute.toString().padLeft(2, '0')}:${m['start']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
-                                          const Text('due',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+            Text('${m['givendate']?.toDate().year}-${m['givendate']?.toDate().month.toString().padLeft(2, '0')}-${m['givendate']?.toDate().day.toString().padLeft(2, '0')} ${m['givendate']?.toDate().hour.toString().padLeft(2, '0')}:${m['givendate']?.toDate().minute.toString().padLeft(2, '0')}:${m['start']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
+                                                          const Text('Asset Details',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-        Text('${m['due']?.toDate().year}-${m['due']?.toDate().month.toString().padLeft(2, '0')}-${m['due']?.toDate().day.toString().padLeft(2, '0')} ${m['due']?.toDate().hour.toString().padLeft(2, '0')}:${m['due']?.toDate().minute.toString().padLeft(2, '0')}:${m['due']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
-                                          const Text('priority',style: TextStyle(fontSize: 20,color: Colors.black,fontStyle: FontStyle.italic)),
-              Text(m['priority']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+              Text(m['asset']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+               const Text('Type Of Asset',style: TextStyle(fontSize: 20,color: Colors.black,fontStyle: FontStyle.italic)),
 
-            //  Text(Provider.of<check>(context,listen: false).scale,style:const TextStyle(fontSize: 20,color: Colors.blue),),
+                                       Text(m['scale']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+              
+                                          const Text('Return Date',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+
+        Text('${m['returndate']?.toDate().year}-${m['returndate']?.toDate().month.toString().padLeft(2, '0')}-${m['returndate']?.toDate().day.toString().padLeft(2, '0')} ${m['returndate']?.toDate().hour.toString().padLeft(2, '0')}:${m['returndate']?.toDate().minute.toString().padLeft(2, '0')}:${m['returndate']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
+                                         
         ]
 
 

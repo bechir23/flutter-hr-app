@@ -1,59 +1,48 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/compensation/typeassets.dart';
+import 'package:provider/provider.dart';
 
-
-class addtravelrequest extends StatefulWidget {
-  final int i;
-  const addtravelrequest({super.key,required this.i});
+class addasset extends StatefulWidget {
+  const addasset({super.key});
 
   @override
-  State<addtravelrequest> createState() => _addtravelrequestState();
+  State<addasset> createState() => _addassetState();
 }
 
-class _addtravelrequestState extends State<addtravelrequest> {
- 
+class _addassetState extends State<addasset> {
+
   final user=FirebaseAuth.instance.currentUser! ; 
       DateTime date=DateTime.now();  DateTime date1=DateTime.now();
 
 //  final _emailcontroller=TextEditingController();
-    final _departmentcontroller=TextEditingController();
-      final _placecontroller=TextEditingController();
-            final _travelidcontroller=TextEditingController();
+    final _assetcontroller=TextEditingController();
 
-            final _purposecontroller=TextEditingController(); 
 
      DateTime e=DateTime.now(); DateTime f=DateTime.now();bool isLoading=false ;
 
-       final _durationcontroller=TextEditingController();
         //  final _duecontroller=TextEditingController();
 
 // ignore: non_constant_identifier_names
-
-
-Future Submit(String a,String b,String c,DateTime d,DateTime e,DateTime f,String g,String h,int i)
+Future Submit(String a,DateTime b,String c,DateTime d,String e)
 async{
   FirebaseFirestore firestore=FirebaseFirestore.instance;
-  await firestore.collection('travelrequest').add(
+  await firestore.collection('tabasset').add(
   {
 'email':a,
-'department':b,
-'place':c,
-'time':d,
-'deperature':e,
-'arrival':f,
-'purpose':g,
-'duration':h,
-'travelid':i,//travelid lezem twali numbre of documents
+'givendate':b,
+'asset':c,
 
+'returndate':d,
+'scale':e
   }
   );
 
 }
 
   @override
-  Widget build(BuildContext context) {       
-
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
       
@@ -62,7 +51,7 @@ async{
       child:   Column(children: [
       
       ListTile(textColor: Colors.pink,leading: IconButton(icon:const Icon(Icons.cancel),onPressed:() {
-       Navigator.pop(context);}),title: const Text('Request')),
+       Navigator.pop(context);}),title: const Text('Add Asset')),
       
       
       const Text('Email'),
@@ -70,30 +59,8 @@ async{
       Text(user.email != null ? user.email! : 'not enregistred')
       
       ,const SizedBox(height: 20,),
-      
-      
-      
-      
-      
-      const Text('Employee department'),
-      
-      TextField(textAlign: TextAlign.center,autofocus: true,controller: _departmentcontroller,),
-      
-      const SizedBox(height: 20,),
-      
-      
-      
-      
-      
-      const Text('Place of visit'),
-      
-      TextField(textAlign: TextAlign.center,autofocus: true,controller: _placecontroller,),
-      
-      const SizedBox(height: 20,),
-      
-      
-      
-      const Text('Expected date of deperature'),
+        
+      const Text('Given Date'),
       
       Text('${date.day}/${date.month}/${date.year}'),
       
@@ -107,11 +74,41 @@ async{
       
       }
       
-      , icon:const Icon(Icons.calendar_today),label: const Text('Deperature',style: TextStyle(fontSize: 20),),),
+      , icon:const Icon(Icons.calendar_today),label: const Text('SELECT',style: TextStyle(fontSize: 20),),),
       
       const SizedBox(height: 20,),
       
-      const Text('Expected date of arrival'),
+      
+      
+      
+      
+      const Text('Asset Details'),
+      
+      TextField(textAlign: TextAlign.center,autofocus: true,controller: _assetcontroller,),
+      
+      const SizedBox(height: 20,),
+
+
+
+      
+       
+      ListTile(title: const Text('Type Of Asset'),trailing: IconButton(onPressed: ()
+      {
+      setState(() {
+        Navigator.pushNamed(context,'type' );
+        
+      });
+      }
+      , icon: const Icon(Icons.navigate_next)),),
+      Text(Provider.of<assets>(context).scale),
+      
+      
+       const SizedBox(height: 20,),
+      
+      
+    
+      
+      const Text('Return Date'),
       
       Text('${date1.day}/${date1.month}/${date1.year}'),
       
@@ -125,37 +122,12 @@ async{
       
       }
       
-      , icon:const Icon(Icons.calendar_today),label: const Text('Arrival',style: TextStyle(fontSize: 20),),),
+      , icon:const Icon(Icons.calendar_today),label: const Text('SELECT',style: TextStyle(fontSize: 20),),),
       const SizedBox(height: 20,),
-      const Text('Duration'),
-      
-      TextField(textAlign: TextAlign.center,autofocus: true,controller: _durationcontroller,),
-      
-      const SizedBox(height: 20,),
-      const Text('Purpose'),
-      
-      TextField(textAlign: TextAlign.center,autofocus: true,controller: _purposecontroller,),
-            const SizedBox(height: 20,),
-
-       const Text('Travelid'),
-       
-             Text(widget.i.toString()),
-             //TextField(textAlign: TextAlign.center,autofocus: true,controller: _travelidcontroller,),
-          
-
+     
       
       
-      
-      //ListTile(title: const Text('Priority'),trailing: IconButton(onPressed: ()
-      //{
-      //setState(() {
-        //Navigator.pushNamed(context,'priority' );
-        
-      //});
-      //}
-      //, icon: const Icon(Icons.navigate_next)),),
-      //Text(Provider.of<check>(context).scale),
-      
+     
       
       
       Row(mainAxisAlignment: MainAxisAlignment.center,
@@ -187,7 +159,7 @@ async{
           });
         //  Provider.of<traveldata>(context,listen:false).increment(_placecontroller.text, _purposecontroller.text);
           
-          Submit(user.email ?? 'not enregistred',_departmentcontroller.text,_placecontroller.text,date,e,f,_purposecontroller.text,_durationcontroller.text,widget.i).then((value){Navigator.pop(context);});
+          Submit(user.email ?? 'not enregistred',e,_assetcontroller.text,f,Provider.of<assets>(context,listen: false).scale).then((value){Navigator.pop(context);});
         },
           child: Padding(
             padding: const EdgeInsets.all(12.0),

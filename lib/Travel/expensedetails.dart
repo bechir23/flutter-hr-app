@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'detailsdata.dart';
 
 class expensedetails extends StatelessWidget {
+  static const screenroute='expensedetails';
   final  Map <String, dynamic>  m ;
   final String d;
   final List<Map <String, dynamic>> l;
@@ -24,17 +25,84 @@ class expensedetails extends StatelessWidget {
    
      
     
-   Expanded(child: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.exit_to_app_rounded))),
-   const SizedBox(width: 10,),
+   Expanded(child: IconButton(onPressed: (){Navigator.pushNamed(context,'expense');}, icon: const Icon(Icons.exit_to_app_rounded))),
+   const SizedBox(width: 30,),
    //email==d['email] ? .......:container 
-     Expanded(child: IconButton(onPressed: (){FirebaseFirestore.instance.collection('travelexpense').doc(d).delete();
-     Navigator.pop(context);}, icon: const Icon(Icons.delete)))
+      Expanded(
+      child: IconButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Dialog(
+                child: SingleChildScrollView(
+                  child: Container(
+                              width: MediaQuery.of(context).size.width*0.5,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      color: Colors.white,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Are you sure you want to discard changes?',
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                   FirebaseFirestore.instance.collection('travelexpense').doc(d).delete();
+                                    Navigator.pushNamed(context, 'expense');
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: const Text('Yes', style: TextStyle(color: Colors.green)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: const Text('No', style: TextStyle(color: Colors.red)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+        icon: const Icon(Icons.delete),
+      ),
+    )
+ 
 
    
    
    
    ]),
-
 
 
     ),
@@ -46,10 +114,10 @@ class expensedetails extends StatelessWidget {
 
             Text(user.email ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
                                           const Text('Place of visit',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                    Text(Provider.of<detailsdata>(context,listen:false ).b,style:const TextStyle(fontSize: 20,color: Colors.blue),),
+                    Text(m['place']??'-',style:const TextStyle(fontSize: 20,color: Colors.blue),),
                                                           const Text('Purpose',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-        Text(Provider.of<detailsdata>(context,listen:false ).b,style:const TextStyle(fontSize: 20,color: Colors.blue),),
+        Text(m['purpose']??'-',style:const TextStyle(fontSize: 20,color: Colors.blue),),
                                           const Text('Added Time',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
                                        
 
@@ -82,7 +150,6 @@ SingleChildScrollView(scrollDirection: Axis.horizontal,
   
   
   
-          // Add more DataColumn widgets for additional columns
   
         ],
   
@@ -104,7 +171,7 @@ SingleChildScrollView(scrollDirection: Axis.horizontal,
   
               DataCell(Text(l[index]['boarding']??'-')),
   
-              DataCell(Text(l[index]['phone']??'-')),
+              DataCell(Text(l[index]['phone'].toString())),
   
               DataCell(Text(l[index]['local']??'-')),
   
@@ -122,7 +189,6 @@ SingleChildScrollView(scrollDirection: Axis.horizontal,
   
             
   
-              // Add more DataCell widgets for additional columns
   
             ],
   

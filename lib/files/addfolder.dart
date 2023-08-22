@@ -27,11 +27,12 @@ async{
   @override
   Widget build(BuildContext context) {
     return Dialog(
-child:Container( width: MediaQuery.of(context).size.width,
+child:Container(
+    width: MediaQuery.of(context).size.width,
    decoration: const  BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0)),color: Colors.white) ,
    child:  Padding(padding: const EdgeInsets.all(12.0),
      child: SingleChildScrollView(
-       child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [
+       child: Column(crossAxisAlignment: CrossAxisAlignment.center,children: [
              
      
      const Text('Folder Name',style: TextStyle(fontSize: 40,fontWeight: FontWeight.bold),),
@@ -39,19 +40,33 @@ child:Container( width: MediaQuery.of(context).size.width,
      TextField(textAlign: TextAlign.center,decoration:const InputDecoration(hintText:'Enter Here') ,controller: _foldercontroller,),
      
     const  SizedBox(height: 10,),
-     Row(children: [
-Expanded(child: GestureDetector(onTap: () {
-  Submit(_foldercontroller.text).then((value){Navigator.pop(context);});
-},child: Padding(
-  padding: const EdgeInsets.all(12.0),
-  child:   Container(padding: const EdgeInsets.all(8.0),child: const Text('OKAY',style: TextStyle(color: Colors.green),)),
-))),
-Expanded(child: GestureDetector(child: Padding(
-  padding: const EdgeInsets.all(12.0),
-  child:   Container(padding: const EdgeInsets.all(8.0),child: const Text('Cancel',style: TextStyle(color: Colors.red),)),
-)))
-
-     ],)
+     Center(
+       child: Row(children: [
+     Expanded(child: GestureDetector(onTap: () {
+     
+       Submit(_foldercontroller.text).then((value){Navigator.pop(context);});
+     
+     },child: Padding(
+     
+       padding: const EdgeInsets.all(12.0),
+     
+       child:   Container(padding: const EdgeInsets.all(8.0),child: const Text('OKAY',style: TextStyle(color: Colors.green),)),
+     
+     ))),
+     Expanded(child: GestureDetector(onTap: () {
+     
+       Navigator.pop(context);
+     
+     },child: Padding(
+     
+       padding: const EdgeInsets.all(12.0),
+     
+       child:   Container(padding: const EdgeInsets.all(8.0),child: const Text('Cancel',style: TextStyle(color: Colors.red),)),
+     
+     )))
+     
+       ],),
+     )
       
       
      

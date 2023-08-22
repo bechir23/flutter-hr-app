@@ -47,7 +47,7 @@ fileToDisplay=File(pickedfile!.path.toString());
 }
 
 
-Future Submit(String a,String b,DateTime c,String d)
+Future Submit(String a,String b,DateTime c,String d,String e)
 async{
   FirebaseFirestore firestore=FirebaseFirestore.instance;
   await firestore.collection('organization').add(
@@ -56,7 +56,7 @@ async{
 'description':b,
 'valid':c,
 'path':d,
-
+'folder':e
   }
   );
 
@@ -184,7 +184,7 @@ async{
       _namecontroller.text,
       _descriptioncontroller.text,
       e,
-      fileToDisplay!.path,
+      fileToDisplay!.path,Provider.of<folderdata>(context,listen: false).selected
     ).then((value) {
       setState(() {
         isLoading = false;

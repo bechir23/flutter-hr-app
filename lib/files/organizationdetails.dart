@@ -33,12 +33,77 @@ class _OrganizationdetailsState extends State<Organizationdetails> {
      
     
    Expanded(child: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.exit_to_app_rounded))),
-   const SizedBox(width: 10,),
+   const SizedBox(width: 30,),
    //email==d['email] ? .......:container 
-     Expanded(child: IconButton(onPressed: (){FirebaseFirestore.instance.collection('organization').doc(widget.d).delete();
-     Navigator.pop(context);}, icon: const Icon(Icons.delete)))
-
-   
+    Expanded(
+      child: IconButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Dialog(
+                child: SingleChildScrollView(
+                  child: Container(
+                              width: MediaQuery.of(context).size.width*0.5,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      color: Colors.white,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Are you sure you want to discard changes?',
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+FirebaseFirestore.instance.collection('organization').doc(widget.d).delete();Navigator.pushNamed(context, 'file');
+},
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: const Text('Yes', style: TextStyle(color: Colors.green)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(context,'file');
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: const Text('No', style: TextStyle(color: Colors.red)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+        icon: const Icon(Icons.delete),
+      ),
+    ),
+     
    
    
    ]),
@@ -58,7 +123,8 @@ class _OrganizationdetailsState extends State<Organizationdetails> {
                               Text(widget.m['description']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
                             
                                         const Text('Folder',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                                Text(Provider.of<folderdata>(context,listen: false).selected,style:const TextStyle(fontSize: 20,color: Colors.blue),),         
+                                                     Text(widget.m['folder']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+
                                           const Text('Valid Until',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
                                        
 
@@ -121,4 +187,5 @@ void setattachment() { setState(() {
 }
  
 }
+
  //tnahi l widget.m w tnahi stateful w l button w tkhalleha keka bl if kahaw

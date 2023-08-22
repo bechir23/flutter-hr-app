@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 class addexpenser extends StatefulWidget {
@@ -25,7 +26,7 @@ class _addexpenserState extends State<addexpenser> {
   final _Otherscontroller=TextEditingController();
   DateTime date=DateTime.now();
   DateTime e=DateTime.now();
-  Future Submit(String a,DateTime b,String c,String d,String e,String f,String g,String h,String i)
+  Future Submit(String a,DateTime b,String c,String d,String e,int f,String g,String h,String i)
 async{
   FirebaseFirestore firestore=FirebaseFirestore.instance;
   await firestore.collection('SET').add(
@@ -60,8 +61,20 @@ async{
           },
           
         
-        ),actions: [IconButton(onPressed: 
-        (){  Submit(_descriptioncontroller.text,e,_Ticketcontroller.text,_Lodgingcontroller.text,_Boardingcontroller.text ,_Phonecontroller.text,_Localconveyancecontroller.text,_Incidentalscontroller.text,_Otherscontroller.text ).then((value){Navigator.pop(context);});}
+        ),actions:  [IconButton(onPressed: 
+        (){  try {
+   Submit(_descriptioncontroller.text,e,_Ticketcontroller.text,_Lodgingcontroller.text,_Boardingcontroller.text ,int.parse(_Phonecontroller.text),_Localconveyancecontroller.text,_Incidentalscontroller.text,_Otherscontroller.text ).then((value){Navigator.pop(context);
+    });
+  } catch (e) {showDialog(context: context, builder:(context){
+      return const AlertDialog(
+
+content: Text('Phone number is required',style: TextStyle(color: Colors.red),),
+      );    
+         }
+      
+      );
+   } }
+          //  Submit(_schemecontroller.text,_categorycontroller.text,_costcontroller.text,_membercontroller.text,int.parse(_numbercontroller.text)  ).then((value){Navigator.pop(context);});}
         , icon: const Icon(Icons.done))],),
       
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
@@ -128,7 +141,7 @@ async{
           const SizedBox(height: 10,),
           const Text('PHONE'),
           
-          TextField(textAlign: TextAlign.center,autofocus: true,controller: _Phonecontroller,),
+          TextField(textAlign: TextAlign.center,autofocus: true,controller: _Phonecontroller,inputFormatters: [FilteringTextInputFormatter.digitsOnly],),
           
           const SizedBox(height: 10,),
           const Text('LOCAL CONVEYANCE'),

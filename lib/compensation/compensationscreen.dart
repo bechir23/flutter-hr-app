@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class travelscreen extends StatefulWidget {
-  static const  String screenroute='travel';
-  const travelscreen({super.key});
+class CompensationScreen extends StatefulWidget {
+  static const String screenroute='compensation';
+  const CompensationScreen({super.key});
 
   @override
-  State<travelscreen> createState() => _travelscreenState();
+  State<CompensationScreen> createState() => _CompensationScreenState();
 }
 
-class _travelscreenState extends State<travelscreen> {
+class _CompensationScreenState extends State<CompensationScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 228, 114, 152),
         leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: ()  {
@@ -22,19 +22,19 @@ class _travelscreenState extends State<travelscreen> {
       
         });
         
-      },),title: const Text('Travel',style: TextStyle(color: Colors.white,fontSize: 40),),centerTitle: true,),
+      },),title: const Text('Compensation',style: TextStyle(color: Colors.white,fontSize: 40),),centerTitle: true,),
         backgroundColor: const Color.fromARGB(255, 240, 128, 165),
         body: ListView(
         children: [ GestureDetector(
-          onTap: (){Navigator.pushNamed(context, 'request');},
+          onTap: (){Navigator.pushNamed(context, 'asset');},
           child: const ListTile(
-            title: Text('Travel Request'),trailing: Icon(Icons.skip_next),
+            title: Text('Asset'),trailing: Icon(Icons.skip_next),
           ),
         ),
          GestureDetector(
-           onTap: (){Navigator.pushNamed(context, 'expense');},
+           onTap: (){Navigator.pushNamed(context, 'benefit');},
            child: const ListTile(
-             title: Text('Travel Expense'),trailing: Icon(Icons.skip_next),
+             title: Text('Benefit'),trailing: Icon(Icons.skip_next),
                  ),
          ),
         

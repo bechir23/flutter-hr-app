@@ -1,20 +1,50 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/AUTH.dart';
+import 'package:myapp/HRletters.dart/addadressproof.dart';
+import 'package:myapp/HRletters.dart/addressproof.dart';
+import 'package:myapp/HRletters.dart/bonafidedetails.dart';
+import 'package:myapp/HRletters.dart/bonafideletter.dart';
+import 'package:myapp/HRletters.dart/change.dart';
+import 'package:myapp/HRletters.dart/experiencedetails.dart';
+import 'package:myapp/HRletters.dart/experienceletter.dart';
+import 'package:myapp/HRletters.dart/letterscreen.dart';
+import 'package:myapp/HRletters.dart/proofdetails.dart';
+import 'package:myapp/HRletters.dart/yesno.dart';
 import 'package:myapp/Travel/TravelExpense.dart';
 import 'package:myapp/Travel/TravelScreen.dart';
 import 'package:myapp/Travel/addexpense.dart';
 import 'package:myapp/Travel/choosetravel.dart';
 import 'package:myapp/Travel/detailsdata.dart';
+import 'package:myapp/Travel/expensedetails.dart';
+import 'package:myapp/cases/addquestion.dart';
+import 'package:myapp/cases/casesdetails.dart';
+import 'package:myapp/cases/casesscreen.dart';
+import 'package:myapp/cases/questions.dart';
+import 'package:myapp/compensation/addmedical.dart';
+import 'package:myapp/compensation/asset.dart';
+import 'package:myapp/compensation/assetdetails.dart';
+import 'package:myapp/compensation/benefit.dart';
+import 'package:myapp/compensation/choosetype.dart';
+import 'package:myapp/compensation/compensationscreen.dart';
+import 'package:myapp/compensation/medical.dart';
+import 'package:myapp/compensation/typeassets.dart';
 import 'package:myapp/files/ADDFILE.dart';
 import 'package:myapp/files/employeedetails.dart';
 import 'package:myapp/files/fileview.dart';
 import 'package:myapp/files/folderdata.dart';
 import 'package:myapp/files/organizationdetails.dart';
 import 'package:myapp/files/view.dart';
-import 'package:myapp/models/WidgetData.dart';
 import 'package:myapp/models/traveldata.dart';
+import 'package:myapp/models/widgetlist.dart';
+import 'package:myapp/myattendance/attendance.dart';
+import 'package:myapp/organization/addexit.dart';
+import 'package:myapp/organization/colldept.dart';
+import 'package:myapp/organization/exit.dart';
+import 'package:myapp/organization/exitdetails.dart';
+import 'package:myapp/organization/organizationscreen.dart';
 import 'package:myapp/screens/Signup.dart';
+import 'package:myapp/screens/companyinformation.dart';
 import 'package:myapp/screens/resetpass.dart';
 import 'package:myapp/task/ADDTASK.dart';
 import 'package:myapp/task/Priority.dart';
@@ -43,10 +73,12 @@ class Myapp extends StatelessWidget {
       providers: [  ChangeNotifierProvider(   create: (context) => traveldata()),
                     ChangeNotifierProvider(   create: (context) => detailsdata()),
 ChangeNotifierProvider(create:(context) => fileview(),),
+ChangeNotifierProvider(create:(context) => yesno(),),
+ChangeNotifierProvider(create:(context) => assets(),),
+ChangeNotifierProvider(create:(context) => medicaldata(),),
 
                     ChangeNotifierProvider(   create: (context) => folderdata()),
 
-        ChangeNotifierProvider(   create: (context) => TaskData()),
       ChangeNotifierProvider(   create: (context) => check())
 ],
       child: MaterialApp(
@@ -72,11 +104,34 @@ ChangeNotifierProvider(create:(context) => fileview(),),
  view.screenroute:(context) => const view(),
 
  employeedetails.screenroute:(context) => const employeedetails(m:{},d:''),
-
+organizationscreen.screenroute:(context) => const organizationscreen(),
+Company.screenroute:(context) => const Company(),
+addexit.screenroute:(context) => const addexit(),
+exitdetails.screenroute:(context) => const exitdetails(m: {}, d: ''),
+questions.screenroute:(context) => const questions(),
+casesdetails.screenroute:(context) => const casesdetails(m: {}, d: ''),
+casesscreen.screenroute:(context) => const casesscreen(),
+addquestion.screenroute:(context) => const addquestion(),
+change.screenroute:(context) => const change(),
           // a: 'default_a_value', b: 'default_b_value',
-  
-  
-  
+          CompensationScreen.screenroute:(context) => const CompensationScreen()  ,
+          experiencedetails.screenroute:(context) => const experiencedetails(m: {}, d: ''),
+          experienceletter.screenroute:(context) => const experienceletter(),
+          bonafidedetails.screenroute:(context) => const bonafidedetails(m: {}, d: ''),
+          bonafideletter.screenroute:(context) => const bonafideletter(),
+ letterscreen.screenroute:(context) => const letterscreen(), 
+  proofdetails.screenroute:(context) => const proofdetails(m: {}, d: ''),
+  addressproof.screenroute:(context) => const addressproof(),
+  asset.screenroute:(context) => const asset(),
+  assetdetails.screenroute:(context) => const assetdetails(m: {}, d: ''),
+  choosetype.screenroute:(context) => const choosetype(),
+  benefit.screenroute:(context) => const benefit(),
+  addmedical.screenroute:(context) => const addmedical(),
+  colldept.screenroute:(context) => const colldept(),
+  expensedetails.screenroute:(context) => const expensedetails(m: {}, d: '', l: []),
+  exit.screenroute:(context) => const exit(),
+  attendance.screenroute:(context) => attendance(),
+TasksList.screenroute:(context) => const TasksList(),
   },)
     );}}    
     

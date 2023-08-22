@@ -50,8 +50,8 @@ NavigationDestination(icon:Icon( Icons.library_add), label:'All Tasks'),
 
         ] 
       ),
-      appBar: AppBar(centerTitle:true,title: const Text('List of Taks',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),),
-      
+      appBar: AppBar(centerTitle:true,title: const Text('List of Taks',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {Navigator.pushNamed(context,'main'); Provider.of<check>(context,listen: false).init();})),
+     
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
      floatingActionButton: FloatingActionButton(onPressed:()
      {Provider.of<check>(context,listen: false).init();

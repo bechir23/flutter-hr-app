@@ -21,14 +21,28 @@ _passcontroller.dispose();
 _confirmpasscontroller.dispose();
 
     }
+
+
     Future SignUp() async
     {
       
-      if (confirmpass())
-      
+      if (confirmpass()) {
+        try{   
   {  await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailcontroller.text.trim(), password: _passcontroller.text.trim());
-    Navigator.pushNamed(context,'auth');
+    // ignore: use_build_context_synchronously
+    Navigator.pushNamed(context,'company');
+    } } catch(e) { 
+      showDialog(context: context, builder:(context){
+      return AlertDialog(
+
+content: Text(e.toString(),style:const  TextStyle(color: Colors.red),),
+      );    
+         }
+      
+      );
     }
+      }
+
       } 
     
     

@@ -53,7 +53,7 @@ NavigationDestination(icon:Icon( Icons.file_download_sharp), label:'Employee Fil
 
         ] 
       ),
-      appBar: AppBar(centerTitle:true,title: const Text('FILES',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),),
+      appBar: AppBar(centerTitle:true,title: const Text('FILES',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {Navigator.pushNamed(context,'main');})),
       
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
      floatingActionButton: FloatingActionButton(onPressed:()

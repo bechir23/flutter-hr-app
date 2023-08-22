@@ -5,6 +5,7 @@ import 'package:myapp/Travel/traveldetails.dart';
 
 class travelrequest extends StatefulWidget {
     static const String screenroute='request'; 
+    
 
   const travelrequest({super.key});
 
@@ -13,9 +14,23 @@ class travelrequest extends StatefulWidget {
 }
 
 class _travelrequestState extends State<travelrequest> {
+  int i=1;final GlobalKey<State> _key = GlobalKey<State>();
+  
+  Future<int> getDocumentCount() async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  QuerySnapshot snapshot = await firestore.collection('travelrequest').get();
+  int documentCount = snapshot.size;
+  return documentCount;
+}
+Future update() async{int j=await getDocumentCount();
+setState(() {
+  i=j;
+}); }
   @override
+ 
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold( key: _key,
          body:
          
          
@@ -74,34 +89,43 @@ class _travelrequestState extends State<travelrequest> {
 
         
       
-      appBar: AppBar(centerTitle:true,title: const Text('Travel Request',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {Navigator.pop(context);
+      appBar: AppBar(centerTitle:true,title: const Text('Travel Request',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {Navigator.pushNamed(context,'travel');
         
       },),),
       
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
-     floatingActionButton: FloatingActionButton(onPressed:()
-     {showModalBottomSheet(isScrollControlled: true,context: context, builder: (context) => 
-     SingleChildScrollView(
-    
-     child: Container(
-      padding: EdgeInsets.only(bottom:MediaQuery.of(context).viewInsets.bottom,),
-      child: const addtravelrequest()),
-       
-     ));},
-    backgroundColor:Colors.white,
-      child: const Icon(Icons.add,color: Colors.pink,),
-          
-          ),
-    
-   
-   
-    
+  
 
-    
-    
-    
 
-       
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await update();
+          print(i);
+
+          showModalBottomSheet(
+            isScrollControlled: true,
+            context: _key.currentContext!,
+            builder: (context) => SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: FutureBuilder(
+                  future: update(), 
+                  builder: (context, snapshot) {
+                //    if (snapshot.connectionState == ConnectionState.waiting) {
+                  //    return const  CircularProgressIndicator(); 
+                   // }
+
+                    return addtravelrequest(i: i);
+                  },
+                ),
+              ),
+            ),
+          );
+        },  backgroundColor:Colors.white,
+      child: const Icon(Icons.add,color: Colors.pink,),),
+
     )
     
       

@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/compensation/medical.dart';
+import 'package:provider/provider.dart';
 
-class traveldetails extends StatelessWidget {
-  static const String screenroute='traveldetails';
-  final  Map <String, dynamic>  m ;
-   final String  d  ;
-   
-   const traveldetails({super.key, required this.m, required this.d} ); 
-  
-
+class benefitdetails extends StatelessWidget {
+ final  Map <String, dynamic>  m ;
+  final String d;
+ final  List<Map <String, dynamic>> l;
+  const benefitdetails({super.key,required this.m,required this.d,required this.l});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+      final user=FirebaseAuth.instance.currentUser!;
+
+ return Scaffold(
 
     appBar: AppBar(centerTitle: true,backgroundColor: const Color.fromARGB(255, 192, 109, 137),
    title: const Text('Details',style: TextStyle(color: Colors.white,fontSize: 40)),
@@ -22,9 +24,9 @@ class traveldetails extends StatelessWidget {
      
     
    Expanded(child: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.exit_to_app_rounded))),
-   const SizedBox(width: 30,),
+   const SizedBox(width: 40,),
    //email==d['email] ? .......:container 
-      Expanded(
+    Expanded(
       child: IconButton(
         onPressed: () {
           showDialog(
@@ -53,9 +55,8 @@ class traveldetails extends StatelessWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                   FirebaseFirestore.instance.collection('travelrequest').doc(d).delete();
-                                    Navigator.pushNamed(context, 'request');
-                                  },
+FirebaseFirestore.instance.collection('tabbenefit').doc(d).delete();                                    Navigator.pushNamed(context, 'benefit');
+},
                                   child: Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Container(
@@ -68,7 +69,7 @@ class traveldetails extends StatelessWidget {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    Navigator.pushNamed(context,'benefit');
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(12.0),
@@ -92,8 +93,9 @@ class traveldetails extends StatelessWidget {
         },
         icon: const Icon(Icons.delete),
       ),
-    )
-  
+    ),
+     
+
    
    
    
@@ -106,29 +108,83 @@ class traveldetails extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
         children:[
-             const Text('email',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+             const Text('Email',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-            Text(m['email'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                          const Text('department',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+            Text(user.email ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+              const Text('Education Allowance',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-                              Text(m['department']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                                          const Text('place',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+            Text(m['education'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),  const Text('Lunch',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-              Text(m['place']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                          const Text('arrival',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                                       
+            Text(m['lunch'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),  const Text('Housing Allowance',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-            Text('${m['arrival']?.toDate().year}-${m['arrival']?.toDate().month.toString().padLeft(2, '0')}-${m['arrival']?.toDate().day.toString().padLeft(2, '0')} ${m['arrival']?.toDate().hour.toString().padLeft(2, '0')}:${m['arrival']?.toDate().minute.toString().padLeft(2, '0')}:${m['arrival']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
-                                          const Text('deperature',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+            Text(m['housing'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+                
+                               const Text('Currency',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+                 Text(m['currency'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
 
-        Text('${m['deperature']?.toDate().year}-${m['deperature']?.toDate().month.toString().padLeft(2, '0')}-${m['deperature']?.toDate().day.toString().padLeft(2, '0')} ${m['deperature']?.toDate().hour.toString().padLeft(2, '0')}:${m['deperature']?.toDate().minute.toString().padLeft(2, '0')}:${m['deperature']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
-                                          const Text('purpose',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+const SizedBox(height: 10,),
+                           
+SingleChildScrollView(scrollDirection: Axis.horizontal,
+  child:   DataTable(
+  
+        columns: const [
+  
+          DataColumn(label: Text('SCHEME',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),)),
+  
+                  DataColumn(label: Text('CATEGORY',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),)),
+  
+          DataColumn(label: Text('COST',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),)),
+  
+          DataColumn(label: Text('MEMBER',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),)),
+  
+          DataColumn(label: Text('MEMBERSHIP NUMBER',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),)),
+  
+                
+        ],
+  
+        rows: List.generate(Provider.of<medicaldata>(context,listen: false).documents.length, (index) {
+  
+          return 
+  
+           DataRow(
+  
+            cells: [
+  
+              DataCell(Text(l[index]['scheme']??'-')),
+  
+                        
+  
+              DataCell(Text(l[index]['category']??'-')),
+  
+                          DataCell(Text((l[index]['cost']).toString())),
+  
+              DataCell(Text(l[index]['member']??'-')),
+  
+              DataCell(Text((l[index]['number']).toString())),
+  
+          
+  
+  
+  
+  
+  
+  
+  
+  
+            
+  
+  
+            ],
+  
+          );
+  
+        }),
+  
+      ),
+)
 
-      Text(m['purpose']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                                 const Text('duration',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-      Text(m['duration']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-       
-       
+
+
         ]
 
 

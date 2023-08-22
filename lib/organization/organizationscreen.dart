@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class travelscreen extends StatefulWidget {
-  static const  String screenroute='travel';
-  const travelscreen({super.key});
+class organizationscreen extends StatefulWidget {
+  static const screenroute='organization';
+  const organizationscreen({super.key});
 
   @override
-  State<travelscreen> createState() => _travelscreenState();
+  State<organizationscreen> createState() => _organizationscreenState();
 }
 
-class _travelscreenState extends State<travelscreen> {
+class _organizationscreenState extends State<organizationscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,19 +22,19 @@ class _travelscreenState extends State<travelscreen> {
       
         });
         
-      },),title: const Text('Travel',style: TextStyle(color: Colors.white,fontSize: 40),),centerTitle: true,),
+      },),title: const Text('Organization',style: TextStyle(color: Colors.white,fontSize: 40),),centerTitle: true,),
         backgroundColor: const Color.fromARGB(255, 240, 128, 165),
         body: ListView(
         children: [ GestureDetector(
-          onTap: (){Navigator.pushNamed(context, 'request');},
+          onTap: (){Navigator.pushNamed(context, 'colldept');},
           child: const ListTile(
-            title: Text('Travel Request'),trailing: Icon(Icons.skip_next),
+            title: Text('View'),trailing: Icon(Icons.skip_next),
           ),
         ),
          GestureDetector(
-           onTap: (){Navigator.pushNamed(context, 'expense');},
+           onTap: (){Navigator.pushNamed(context, 'exit');},
            child: const ListTile(
-             title: Text('Travel Expense'),trailing: Icon(Icons.skip_next),
+             title: Text('Exit details'),trailing: Icon(Icons.skip_next),
                  ),
          ),
         

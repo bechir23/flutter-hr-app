@@ -1,41 +1,37 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/Travel/detailsdata.dart';
+import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 
-import 'choosetravel.dart';
-class addtravelexpense extends StatefulWidget {
-  const addtravelexpense({super.key});
+import 'medical.dart';
+
+class addbenefit extends StatefulWidget {
+  const addbenefit({super.key});
 
   @override
-  State<addtravelexpense> createState() => _addtravelexpenseState();
+  State<addbenefit> createState() => _addbenefitState();
 }
 
-class _addtravelexpenseState extends State<addtravelexpense> {
-  String  a='UNDIFINED';
-  String b='UNDIFINED' ;
-   void updateAAndB(String newA, String newB) {
-    setState(() {
-      a = newA;
-      b = newB;
-    });
-  }
-  final user=FirebaseAuth.instance.currentUser! ; 
-      DateTime date=DateTime.now();  bool isLoading=false ;
+class _addbenefitState extends State<addbenefit> {
+  List<String> itemslist=['QAR','USD','EUR'];
+  String? selecteditem='QAR';
 
-//  final _emailcontroller=TextEditingController();
+  final user=FirebaseAuth.instance.currentUser! ; 
+     bool isLoading=false ;
+
+  final _housingcontroller=TextEditingController();
     
+       final _lunchcontroller=TextEditingController();
 
  
 
-        //  final _duecontroller=TextEditingController();
+       final _educationcontroller=TextEditingController();
 
 // ignore: non_constant_identifier_names
 
 Future clearCollection() async {
-  CollectionReference collectionRef = FirebaseFirestore.instance.collection('SET');
+  CollectionReference collectionRef = FirebaseFirestore.instance.collection('medical');
 
   QuerySnapshot snapshot = await collectionRef.get();
 
@@ -49,15 +45,17 @@ Future clearCollection() async {
   await batch.commit();
 }
 
-Future Submit(String a,DateTime d,String b,String c)
+Future Submit(String a,String b,String c ,String d,String e)
 async{
   FirebaseFirestore firestore=FirebaseFirestore.instance;
-  await firestore.collection('travelexpense').add(
+  await firestore.collection('tabbenefit').add(
   {
 'email':a,
-'time':d,
-'place':b,
-'purpose':c,
+'education':b,
+'lunch':c,
+'housing':d,
+'currency':e
+
   }
   );
 
@@ -76,7 +74,7 @@ async{
           children: [
         
         ListTile(textColor: Colors.pink,leading: IconButton(icon:const Icon(Icons.cancel),onPressed:() {
-         Navigator.pop(context);}),title: const Text('Expense')),
+         Navigator.pop(context);}),title: const Text('Benefit')),
         
         
         const Text('Email'),
@@ -84,45 +82,48 @@ async{
         Text(user.email != null ? user.email! : 'not enregistred')
         
         ,const SizedBox(height: 20,),
-        
-            
-        ListTile(title: const Text('Travel ID'),trailing: IconButton(  icon: const Icon(Icons.navigate_next),onPressed: b != null
-      ? () {
-          setState(() {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => choosetravel(
-                 // a: a,
-                 // b: b,
-                   onAAndBChanged: updateAAndB,
-                ),
-              ),
-            );
-          });
-        }
-      : null,)),
+         
+      const Text('Education Allowance'),
+      
+      TextField(textAlign: TextAlign.center,autofocus: true,controller: _educationcontroller,),
+      
+      const SizedBox(height: 20,),
+ 
+      const Text('Lunch'),
+      
+      TextField(textAlign: TextAlign.center,autofocus: true,controller: _lunchcontroller,),
+      
+      const SizedBox(height: 20,),
+ 
+      const Text('Housing Allowance'),
+      
+      TextField(textAlign: TextAlign.center,autofocus: true,controller: _housingcontroller,),
+      
+      const SizedBox(height: 20,),
+
+       const Text('Currency'),
+DropdownButton<String>(
+  value:selecteditem,
+  items: itemslist.map((item) => DropdownMenuItem(value: item,child: Text(item,style: const TextStyle(fontSize: 20),),)).toList(), 
+  onChanged: (item) => setState(() {
+     selecteditem=item;
+    Provider.of<medicaldata>(context,listen: false).update(selecteditem!);
+  })),
+   
+    
+   
+    
 
         
         
         
-        
-        
-        
-        
-    
-    
-        const Text('place of visit',style:TextStyle(color: Colors.orange) ,),
-        Text(a),
-           const    Text('purpose',style:TextStyle(color: Colors.orange) ,),
-      
-              Text(b),
+  
       
         const SizedBox(height: 20,),
-        GestureDetector(onTap: (){Navigator.pushNamed(context,'addexpense');}, child: Padding(
+        GestureDetector(onTap: (){Navigator.pushNamed(context,'addmedical');}, child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Container(padding:const  EdgeInsets.all(12.0),
-                 decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: const Color.fromARGB(255, 54, 82, 244),),child:const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Text('Expense'),SizedBox(width:20),Icon(Icons.add)],)),
+                 decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: const Color.fromARGB(255, 54, 82, 244),),child:const Row(mainAxisAlignment: MainAxisAlignment.center,children: [Text('Add Medical'),SizedBox(width:20),Icon(Icons.add)],)),
         ),),
               const SizedBox(height: 20,),
       
@@ -135,7 +136,7 @@ async{
                 
             
               child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('SET').snapshots(),
+              stream: FirebaseFirestore.instance.collection('medical').snapshots(),
               builder:(BuildContext context,AsyncSnapshot <QuerySnapshot> snapshot )
               {
                if(snapshot.hasError) { return const Center(child: Text('No Trips found'));}
@@ -147,8 +148,8 @@ async{
                  child: ListView(
                    children: snapshot.data!.docs.map((DocumentSnapshot document)
                    {Map<String,dynamic> data =document.data()! as Map<String,dynamic> ;
-                   Provider.of<detailsdata>(context,listen: false).documents.add(data);
-                      if (data['description'] == null) {
+                   Provider.of<medicaldata>(context,listen: false).documents.add(data);
+                      if (data['scheme'] == null) {
                      return const SizedBox(); // You can return an empty widget or handle this case as per your requirement.
                    }
                      return Padding(
@@ -161,18 +162,16 @@ async{
                          Row(
                            children: [Row(
                              children:[
-                        data['description']==''? const   Text('-,',style:  TextStyle(color: Colors.white),) :                   Text('${data['description']},',style: const TextStyle(color: Colors.white),),
-                               data['ticket']==''? const   Text('-,',style:  TextStyle(color: Colors.white),) :            Text('${data['ticket']},',style: const TextStyle(color: Colors.white),),
-      
-           
-Text('${data['date']?.toDate().year}-${data['date']?.toDate().month}-${data['date']?.toDate().day} ,' ,style: const TextStyle(color: Colors.white),),
-                             data['lodging']==''? const   Text('-,',style:  TextStyle(color: Colors.white),) :              Text('${data['lodging']},',style: const TextStyle(color: Colors.white),),
-                                data['boarding']==''? const   Text('-,',style:  TextStyle(color: Colors.white),) :           Text(
-                                        '${data['boarding']},',style: const TextStyle(color: Colors.white),),
-                             Text('${data['phone']},',style: const TextStyle(color: Colors.white),),                                data['local']==''? const   Text('-,',style:  TextStyle(color: Colors.white),) :           Text('${data['local']},',style: const TextStyle(color: Colors.white),),
-                     data['incidentals']==''? const   Text('-,',style:  TextStyle(color: Colors.white),) :                      Text('${data['incidentals']},',style: const TextStyle(color: Colors.white),),
-                    data['others']==''? const   Text('-,',style:  TextStyle(color: Colors.white),) :                       Text('${data['others']},',style: const TextStyle(color: Colors.white),),
-          
+                                   
+          data['scheme']==''? const   Text('-,',style:  TextStyle(color: Colors.white),) :   Text('${data['scheme']},',style: const TextStyle(color: Colors.white),),
+                      data['category']==''? const   Text('-,',style:  TextStyle(color: Colors.white),) :             Text('${data['category']},',style: const TextStyle(color: Colors.white),),
+                                       
+                                 
+                                      Text('${data['cost']},',style: const TextStyle(color: Colors.white),),
+                               data['member']==''? const   Text('-,',style:  TextStyle(color: Colors.white),) :          Text(
+                                        '${data['member']},',style: const TextStyle(color: Colors.white),),
+                                       Text('${data['number']},',style: const TextStyle(color: Colors.white),),
+                                    
                                        
                              ]
                         
@@ -180,7 +179,7 @@ Text('${data['date']?.toDate().year}-${data['date']?.toDate().month}-${data['dat
                            const SizedBox(width: 20,),
                            
                            
-                           IconButton(onPressed:(){FirebaseFirestore.instance.collection('SET').doc(document.id).delete();Provider.of<detailsdata>(context,listen: false).documents.remove(data);}, icon: const Icon(Icons.delete))
+                           IconButton(onPressed:(){FirebaseFirestore.instance.collection('medical').doc(document.id).delete();Provider.of<medicaldata>(context,listen: false).documents.remove(data);}, icon: const Icon(Icons.delete))
            ] )
                      
                        ),
@@ -206,7 +205,7 @@ Text('${data['date']?.toDate().year}-${data['date']?.toDate().month}-${data['dat
       
         Expanded(
           child: GestureDetector(
-           onTap: (){Navigator.pop(context); Provider.of<detailsdata>(context,listen: false).init();clearCollection();},
+           onTap: (){Navigator.pop(context); Provider.of<medicaldata>(context,listen: false).init();clearCollection();},
            child: Padding(
              padding: const EdgeInsets.all(12.0),
              child: Container(padding: const EdgeInsets.all(20),
@@ -226,11 +225,11 @@ Text('${data['date']?.toDate().year}-${data['date']?.toDate().month}-${data['dat
              isLoading=true ;
            });
            
-           Submit(user.email ?? 'not enregistred',date,Provider.of<detailsdata>(context,listen:false ).b,Provider.of<detailsdata>(context,listen:false ).a ).then((value){Navigator.pop(context);
+           Submit(user.email ?? 'not enregistred',_educationcontroller.text,_lunchcontroller.text,_housingcontroller.text,Provider.of<medicaldata>(context,listen: false).currency ).then((value){Navigator.pop(context);
             }
            
            );
-          Provider.of<detailsdata>(context,listen: false).init();
+      //    Provider.of<medicaldata>(context,listen: false).init();
            },
            child: Padding(
              padding: const EdgeInsets.all(12.0),
@@ -252,35 +251,6 @@ Text('${data['date']?.toDate().year}-${data['date']?.toDate().month}-${data['dat
 
     
   }}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

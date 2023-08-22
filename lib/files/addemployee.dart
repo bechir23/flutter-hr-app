@@ -48,7 +48,7 @@ fileToDisplay=File(pickedfile!.path.toString());
 }
 
 
-Future Submit(String a,String b,String c,String d,)
+Future Submit(String a,String b,String c,String d,String e)
 async{
   FirebaseFirestore firestore=FirebaseFirestore.instance;
   await firestore.collection('employee').add(
@@ -58,6 +58,7 @@ async{
 
 'path':c,
 'folder':d,
+'fileview':e
   }
   );
 
@@ -190,7 +191,7 @@ async{
       _descriptioncontroller.text,
       
       fileToDisplay!.path,
-      _foldercontroller.text
+      _foldercontroller.text,Provider.of<fileview>(context,listen: false).selected
     ).then((value) {
       setState(() {
         isLoading = false;
