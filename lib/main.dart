@@ -35,6 +35,9 @@ import 'package:myapp/files/fileview.dart';
 import 'package:myapp/files/folderdata.dart';
 import 'package:myapp/files/organizationdetails.dart';
 import 'package:myapp/files/view.dart';
+import 'package:myapp/leave/leave.dart';
+import 'package:myapp/leave/request.dart';
+import 'package:myapp/models/index.dart';
 import 'package:myapp/models/traveldata.dart';
 import 'package:myapp/models/widgetlist.dart';
 import 'package:myapp/myattendance/attendance.dart';
@@ -44,6 +47,7 @@ import 'package:myapp/organization/exit.dart';
 import 'package:myapp/organization/exitdetails.dart';
 import 'package:myapp/organization/organizationscreen.dart';
 import 'package:myapp/screens/Signup.dart';
+import 'package:myapp/screens/Widget_Screen.dart';
 import 'package:myapp/screens/companyinformation.dart';
 import 'package:myapp/screens/resetpass.dart';
 import 'package:myapp/task/ADDTASK.dart';
@@ -76,7 +80,7 @@ ChangeNotifierProvider(create:(context) => fileview(),),
 ChangeNotifierProvider(create:(context) => yesno(),),
 ChangeNotifierProvider(create:(context) => assets(),),
 ChangeNotifierProvider(create:(context) => medicaldata(),),
-
+ChangeNotifierProvider(create: (context)=>pos()),
                     ChangeNotifierProvider(   create: (context) => folderdata()),
 
       ChangeNotifierProvider(   create: (context) => check())
@@ -132,6 +136,10 @@ change.screenroute:(context) => const change(),
   exit.screenroute:(context) => const exit(),
   attendance.screenroute:(context) => attendance(),
 TasksList.screenroute:(context) => const TasksList(),
+TasksScreen.screenroute:(context)=> const TasksScreen(),
+leave.screenroute:(context) => const leave(),
+leaverequest.screenroute:(context) => const leaverequest(),
+
   },)
     );}}    
     

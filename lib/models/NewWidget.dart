@@ -1,31 +1,29 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 class NewTask extends StatelessWidget {
   final String name;
   final String press;
-  const NewTask({super.key, required this.name,required this.press});
+  final String ImageUrl;
+  const NewTask({super.key, required this.name,required this.press,required this.ImageUrl});
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(100),
       child: GestureDetector(
         onTap: (){Navigator.pushNamed(context, press);},
-        child: Container(
-            decoration: const BoxDecoration(color: Colors.white,borderRadius: BorderRadius.all( Radius.circular(20))),
-          child: Column(
-           
-            mainAxisAlignment: MainAxisAlignment.center,
-            
-            children:[
-             const Icon(
-              Icons.airplane_ticket,
-             ),
-              
-              const SizedBox(height: 10,),
-               Text(name,textAlign:TextAlign.center,
-            style:const TextStyle(fontSize: 50,fontWeight: FontWeight.bold))]
-          ),
-        ),
+        child:  Stack(
+          children: [
+AspectRatio(aspectRatio: 1,child: ClipRRect(borderRadius: BorderRadius.circular(15.0),child: Image.network(ImageUrl,height: 250,fit: BoxFit.cover,))),
+Container(padding:const EdgeInsets.all(10.0),alignment: Alignment.center,decoration: BoxDecoration(color: Colors.black.withOpacity(0.2),borderRadius: BorderRadius.all( Radius.circular(15))) ,
+child: Text(name,style:const  TextStyle(fontSize: 30,color: Colors.white)),
+
+)
+
+
+          ],
+        )
       ),
     ) ;
   }

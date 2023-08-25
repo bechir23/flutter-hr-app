@@ -23,8 +23,7 @@ class exitdetails extends StatelessWidget {
     Expanded(
       child: IconButton(
         onPressed: () {
-          Navigator.pop(context);
-        },
+ Navigator.pushNamed(context, 'exit');        },
         icon: const Icon(Icons.exit_to_app),
       ),
     ),

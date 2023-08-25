@@ -6,6 +6,8 @@ import 'package:myapp/task/mytasks.dart';
 import 'package:myapp/task/valuecheckbox.dart';
 import 'package:provider/provider.dart';
 
+import '../models/index.dart';
+
 class AddTask extends StatefulWidget {
   static const String screenroute='welcome';
   const AddTask({super.key});
@@ -50,7 +52,8 @@ NavigationDestination(icon:Icon( Icons.library_add), label:'All Tasks'),
 
         ] 
       ),
-      appBar: AppBar(centerTitle:true,title: const Text('List of Taks',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {Navigator.pushNamed(context,'main'); Provider.of<check>(context,listen: false).init();})),
+      appBar: AppBar(centerTitle:true,title: const Text('List of Taks',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () { Provider.of<pos>(context,listen: false).index=1;Navigator.pushNamed(context,'navigation');        
+ Provider.of<check>(context,listen: false).init();})),
      
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
      floatingActionButton: FloatingActionButton(onPressed:()

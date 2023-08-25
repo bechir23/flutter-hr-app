@@ -3,18 +3,18 @@ import 'package:provider/provider.dart';
 
 import '../models/index.dart';
 
-class organizationscreen extends StatefulWidget {
-  static const screenroute='organization';
-  const organizationscreen({super.key});
+class timescreen extends StatefulWidget {
+  static const String screenroute='time';
+  const timescreen({super.key});
 
   @override
-  State<organizationscreen> createState() => _organizationscreenState();
+  State<timescreen> createState() => _timescreenState();
 }
 
-class _organizationscreenState extends State<organizationscreen> {
+class _timescreenState extends State<timescreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+ return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 228, 114, 152),
         leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: ()  {
@@ -30,18 +30,23 @@ class _organizationscreenState extends State<organizationscreen> {
         backgroundColor: const Color.fromARGB(255, 240, 128, 165),
         body: ListView(
         children: [ GestureDetector(
-          onTap: (){Navigator.pushNamed(context, 'colldept');},
+          onTap: (){Navigator.pushNamed(context, 'job');},
           child: const ListTile(
-            title: Text('View'),trailing: Icon(Icons.skip_next),
+            title: Text('Jobs'),trailing: Icon(Icons.skip_next),
           ),
         ),
          GestureDetector(
-           onTap: (){Navigator.pushNamed(context, 'exit');},
+           onTap: (){Navigator.pushNamed(context, 'project');},
            child: const ListTile(
-             title: Text('Exit details'),trailing: Icon(Icons.skip_next),
+             title: Text('Projects'),trailing: Icon(Icons.skip_next),
                  ),
          ),
-        
+         GestureDetector(
+          onTap: (){Navigator.pushNamed(context, 'client');},
+          child: const ListTile(
+            title: Text('Clients'),trailing: Icon(Icons.skip_next),
+          ),
+        ),
         ]),
       );  
   }

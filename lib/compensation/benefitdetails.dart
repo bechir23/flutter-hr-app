@@ -23,7 +23,7 @@ class benefitdetails extends StatelessWidget {
    
      
     
-   Expanded(child: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.exit_to_app_rounded))),
+   Expanded(child: IconButton(onPressed: (){ Navigator.pushNamed(context, 'benefit');}, icon: const Icon(Icons.exit_to_app_rounded))),
    const SizedBox(width: 40,),
    //email==d['email] ? .......:container 
     Expanded(
@@ -69,7 +69,7 @@ FirebaseFirestore.instance.collection('tabbenefit').doc(d).delete();            
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(context,'benefit');
+                                    Navigator.pop(context);
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(12.0),

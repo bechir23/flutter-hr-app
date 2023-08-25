@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/widgetlist.dart';
+import 'package:provider/provider.dart';
+
+import '../models/index.dart';
 
 class TasksScreen extends StatefulWidget {
+  static const screenroute='navigation';
   const TasksScreen({super.key});
 
   
@@ -10,7 +14,7 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  int index=0;
+ // int index=0;
 final pages=[
 const Text('Ho;e'),
    
@@ -25,11 +29,11 @@ const Text('approval'),const Text('seetings')];
   Widget build(BuildContext context) {
     return Scaffold(
 
-       body: pages[index],
+       body: pages[Provider.of<pos>(context,listen: false).index],
       bottomNavigationBar: NavigationBar(
-        selectedIndex: index,
+        selectedIndex: Provider.of<pos>(context,listen: false).index,
         onDestinationSelected: (index) =>setState(() {
-         this.index=index; 
+         Provider.of<pos>(context,listen: false).index=index; 
         }),
         height: 60,
         destinations:const [

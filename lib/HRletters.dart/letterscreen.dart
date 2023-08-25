@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/index.dart';
 
 class letterscreen extends StatefulWidget {
   static const String screenroute='letter';
@@ -17,8 +20,8 @@ class _letterscreenState extends State<letterscreen> {
         leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: ()  {
      
           setState(() {
-         
-          Navigator.pop(context);
+         Provider.of<pos>(context,listen: false).index=1;
+          Navigator.pushNamed(context,'navigation');
       
         });
         

@@ -21,7 +21,7 @@ class traveldetails extends StatelessWidget {
    
      
     
-   Expanded(child: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.exit_to_app_rounded))),
+   Expanded(child: IconButton(onPressed: (){   Navigator.pushNamed(context, 'request');}, icon: const Icon(Icons.exit_to_app_rounded))),
    const SizedBox(width: 30,),
    //email==d['email] ? .......:container 
       Expanded(

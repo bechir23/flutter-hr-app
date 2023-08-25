@@ -47,10 +47,14 @@ final suggestions=alltasks.where((task) {
                      child:  TextField(controller: _searchcontroller,onChanged: search,decoration: const InputDecoration(hintText: 'Search for services...'),)),
                  ), 
                 Expanded(
-                  child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                  child: GridView.builder(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2
+                  ,
+                  
+                  ),
                   itemCount: tasks.length,
+                  
                    itemBuilder:(context,index) {
-                    return  NewTask(name:tasks[index].name,press: tasks[index].press); 
+                    return  NewTask(name:tasks[index].name,press: tasks[index].press,ImageUrl:tasks[index].ImageUrl ,); 
                   }),
                 ),
               ],

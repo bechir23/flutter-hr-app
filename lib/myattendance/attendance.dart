@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../models/index.dart';
 import 'event.dart';
 
 class attendance extends StatefulWidget {
@@ -272,7 +274,8 @@ Future<void> _addEvent(String eventName) async {
        
       ),
       
-      appBar: AppBar(centerTitle:true,title: const Text('My attendance',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {Navigator.pop(context);
+      appBar: AppBar(centerTitle:true,title: const Text('My attendance',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {         Provider.of<pos>(context,listen: false).index=1;
+Navigator.pushNamed(context,'navigation');
         
       })),
       

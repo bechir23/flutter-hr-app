@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/index.dart';
 
 class travelscreen extends StatefulWidget {
   static const  String screenroute='travel';
@@ -17,8 +20,8 @@ class _travelscreenState extends State<travelscreen> {
         leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: ()  {
      
           setState(() {
-         
-          Navigator.pushNamed(context,'main');
+          Provider.of<pos>(context,listen: false).index=1;
+          Navigator.pushNamed(context,'navigation');
       
         });
         

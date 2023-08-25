@@ -4,6 +4,7 @@ import 'package:myapp/files/fileview.dart';
 import 'package:myapp/files/folderdata.dart';
 import 'package:provider/provider.dart';
 
+import '../models/index.dart';
 import 'addemployee.dart';
 import 'addorganization.dart';
 import 'employeefiles.dart';
@@ -53,7 +54,7 @@ NavigationDestination(icon:Icon( Icons.file_download_sharp), label:'Employee Fil
 
         ] 
       ),
-      appBar: AppBar(centerTitle:true,title: const Text('FILES',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () {Navigator.pushNamed(context,'main');})),
+      appBar: AppBar(centerTitle:true,title: const Text('FILES',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () { Provider.of<pos>(context,listen: false).index=1;Navigator.pushNamed(context,'navigation');})),
       
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
      floatingActionButton: FloatingActionButton(onPressed:()
