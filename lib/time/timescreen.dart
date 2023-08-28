@@ -29,7 +29,13 @@ class _timescreenState extends State<timescreen> {
       },),title: const Text('Organization',style: TextStyle(color: Colors.white,fontSize: 40),),centerTitle: true,),
         backgroundColor: const Color.fromARGB(255, 240, 128, 165),
         body: ListView(
-        children: [ GestureDetector(
+        children: [
+           GestureDetector(
+          onTap: (){Navigator.pushNamed(context, 'timelog');},
+          child: const ListTile(
+            title: Text('Time Logs'),trailing: Icon(Icons.skip_next),
+          ),
+        ), GestureDetector(
           onTap: (){Navigator.pushNamed(context, 'job');},
           child: const ListTile(
             title: Text('Jobs'),trailing: Icon(Icons.skip_next),

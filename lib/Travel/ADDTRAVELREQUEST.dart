@@ -19,7 +19,6 @@ class _addtravelrequestState extends State<addtravelrequest> {
 //  final _emailcontroller=TextEditingController();
     final _departmentcontroller=TextEditingController();
       final _placecontroller=TextEditingController();
-            final _travelidcontroller=TextEditingController();
 
             final _purposecontroller=TextEditingController(); 
 

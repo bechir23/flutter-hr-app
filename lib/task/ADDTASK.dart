@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/task/addtaskscreen.dart';
 import 'package:myapp/task/alltasks.dart';
 import 'package:myapp/task/mytasks.dart';
+import 'package:myapp/task/taskpos.dart';
 import 'package:myapp/task/valuecheckbox.dart';
 import 'package:provider/provider.dart';
 
@@ -36,12 +37,12 @@ final pages=[
     
     
     return Scaffold(
-         body: pages[index],
+         body: pages[Provider.of<taskpos>(context,listen:false).index],
        
       bottomNavigationBar: NavigationBar(
-        selectedIndex: index,
+        selectedIndex:Provider.of<taskpos>(context,listen:false).index ,
         onDestinationSelected: (index) =>setState(() {
-         this.index=index; 
+         Provider.of<taskpos>(context,listen:false).index=index; 
         }),
         height: 60,
         destinations:const  [

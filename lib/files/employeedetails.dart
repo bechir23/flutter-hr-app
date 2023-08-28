@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:myapp/files/fileview.dart';
-import 'package:provider/provider.dart';
+
 
 class employeedetails extends StatefulWidget {
   static const  String screenroute='employeedetails';

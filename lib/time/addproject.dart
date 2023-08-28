@@ -75,13 +75,25 @@ async{
           
           
            const SizedBox(height: 10,),
-           ListTile(title: const Text('Client'),trailing: IconButton(onPressed: ()
-        {
-        
-        }
-        , icon: const Icon(Icons.navigate_next)),),
-        Text(Provider.of<projectdata>(context).selected[3]),
-        
+           Consumer<projectdata>(
+  builder: (context, projectData, _) {
+    return Column(
+      children: [
+        ListTile(
+          title: const Text('Client'),
+          trailing: IconButton(
+            onPressed: () {
+                Navigator.pushNamed(context,'clientview');
+            },
+            icon: const Icon(Icons.navigate_next),
+          ),
+        ),
+        Text('Selected: ${projectData.selected[3]}'),
+      ],
+    );
+  },
+),
+          
          
            
                   const SizedBox(height: 10,),
@@ -100,56 +112,86 @@ async{
           TextField(textAlign: TextAlign.center,autofocus: true,controller: _ratecontroller,inputFormatters: [FilteringTextInputFormatter.digitsOnly],),
           
           const SizedBox(height: 10,),
-        
-                ListTile(title: const Text('Assign Head'),trailing: IconButton(onPressed: ()
-        {
-         Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const assigneesview(i: 0,),
-              ),
-            
-          
-          );
-        }
-        , icon: const Icon(Icons.navigate_next)),),
-        Text(Provider.of<projectdata>(context).selected[0]),
-        
+ Consumer<projectdata>(
+  builder: (context, projectData, _) {
+    return Column(
+      children: [
+        ListTile(
+          title: const Text('Assign Head'),
+          trailing: IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const assigneesview(i: 0),
+                ),
+              );
+            },
+            icon: const Icon(Icons.navigate_next),
+          ),
+        ),
+        Text('Selected: ${projectData.selected[0]}'),
+      ],
+    );
+  },
+),
+
         
           
                           const SizedBox(height: 10,),
-      ListTile(title: const Text('Assign Manager'),trailing: IconButton(onPressed: ()
-        {
-         Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const assigneesview(i: 1,),
-              ),
-            
-          
-          );
-        }
-        , icon: const Icon(Icons.navigate_next)),),
-        Text(Provider.of<projectdata>(context).selected[1]),
+                          Consumer<projectdata>(
+  builder: (context, projectData, _) {
+    return Column(
+      children: [
+        ListTile(
+          title: const Text('Assign Manager'),
+          trailing: IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const assigneesview(i: 1),
+                ),
+              );
+            },
+            icon: const Icon(Icons.navigate_next),
+          ),
+        ),
+        Text('Selected: ${projectData.selected[1]}'),
+      ],
+    );
+  },
+),
+
         
+      
                                     const SizedBox(height: 10,),
+Consumer<projectdata>(
+  builder: (context, projectData, _) {
+    return Column(
+      children: [
+        ListTile(
+          title: const Text('Assign User'),
+          trailing: IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const assigneesview(i: 2),
+                ),
+              );
+            },
+            icon: const Icon(Icons.navigate_next),
+          ),
+        ),
+        Text('Selected: ${projectData.selected[2]}'),
+      ],
+    );
+  },
+),
 
-
-          
-              ListTile(title: const Text('Assign User'),trailing: IconButton(onPressed: ()
-        {
-         Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const assigneesview(i: 2,),
-              ),
-            
-          
-          );
-        }
-        , icon: const Icon(Icons.navigate_next)),),
-        Text(Provider.of<projectdata>(context).selected[2]),
         
+
           
           
           Row(mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +221,7 @@ async{
               if ( formkey.currentState!.validate()){
           try{ Submit(
           _namecontroller.text,
-         '',int.parse(_ratecontroller.text),
+         Provider.of<projectdata>(context,listen: false).selected[3],int.parse(_ratecontroller.text),
           Provider.of<projectdata>(context,listen: false).selected[0],
         Provider.of<projectdata>(context,listen: false).selected[1]  ,Provider.of<projectdata>(context,listen: false).selected[2]
         ,

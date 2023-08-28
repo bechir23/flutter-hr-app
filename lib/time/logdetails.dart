@@ -1,18 +1,21 @@
-
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 
-class clientdetails extends StatefulWidget {
+class logdetails extends StatefulWidget {
   final Map<String,dynamic> m;
   final String d;
-  const clientdetails({super.key,required this.m,required this.d});
+  const logdetails({super.key,required this.m,required this.d});
 
   @override
-  State<clientdetails> createState() => _clientdetailsState();
+  State<logdetails> createState() => _logdetailsState();
 }
 
-class _clientdetailsState extends State<clientdetails> {
+class _logdetailsState extends State<logdetails> {
+
+  bool _showAttachment=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +27,7 @@ class _clientdetailsState extends State<clientdetails> {
    
      
     
-   Expanded(child: IconButton(onPressed: (){Navigator.pushNamed(context,'client');}, icon: const Icon(Icons.exit_to_app_rounded))),
+   Expanded(child: IconButton(onPressed: (){Navigator.pushNamed(context,'timelog');}, icon: const Icon(Icons.exit_to_app_rounded))),
    const SizedBox(width: 30,),
    //email==d['email] ? .......:container 
  Expanded(
@@ -56,7 +59,7 @@ class _clientdetailsState extends State<clientdetails> {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-FirebaseFirestore.instance.collection('client').doc(widget.d).delete();Navigator.pushNamed(context, 'client');
+FirebaseFirestore.instance.collection('timelog').doc(widget.d).delete();Navigator.pushNamed(context, 'timelog');
 },
                                   child: Padding(
                                     padding: const EdgeInsets.all(12.0),
@@ -109,33 +112,39 @@ FirebaseFirestore.instance.collection('client').doc(widget.d).delete();Navigator
       padding: const EdgeInsets.all(20.0),
       child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
         children:[
-             const Text('Client Name',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+             const Text('Job Name',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
             Text(widget.m['name'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                                          const Text('Currency',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+                                          const Text('Project',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-                              Text(widget.m['currency']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-                              const Text('Description',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+                              Text(widget.m['project']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+                        
+        const Text('Date',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-                              Text(widget.m['description']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+        Text('${widget.m['time']?.toDate().year}-${widget.m['time']?.toDate().month.toString().padLeft(2, '0')}-${widget.m['time']?.toDate().day.toString().padLeft(2, '0')} ',style:const TextStyle(fontSize: 20,color: Colors.blue)),
 
-                                        const Text('First Name',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                                Text(widget.m['firstname']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),         
-        
-            const Text('Last Name',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                                Text(widget.m['lasetname']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),         
-           const Text('phone',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                                Text(widget.m['phone'].toString(),style:const TextStyle(fontSize: 20,color: Colors.blue),),         
-   const Text('Street',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                                Text(widget.m['street']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),         
-         const Text('State',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                                Text(widget.m['state']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),         
-         const Text('City',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                                Text(widget.m['city']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),         
-       const Text('Code',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                                Text(widget.m['code'].toString(),style:const TextStyle(fontSize: 20,color: Colors.blue),),         
-       const Text('Industry',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
-                                Text(widget.m['industry']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),         
+    const Text('Work Item',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+
+            Text(widget.m['work'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+
+                const Text('Description',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+
+            Text(widget.m['description'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),                    
+       const Text('File Attachment',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
+      GestureDetector(
+          onTap: () {
+            setattachment(); 
+          },
+          child: const Text('File Attachment'),
+        ),
+
+        if (_showAttachment)
+          Expanded(
+            child: getattachment(),
+          ),
+      
+    
+    
       
       
         ]
@@ -150,5 +159,31 @@ FirebaseFirestore.instance.collection('client').doc(widget.d).delete();Navigator
 
     );
   }
+
+Widget getattachment() {
+    final String? filePath = widget.m['path'];
+    if (filePath != null) {
+      if (filePath.endsWith('.pdf')) {
+        
+        return PDFView(
+          filePath: filePath,
+        );
+      } else {
+        
+        return Image.file(
+          File(filePath),
+          height: 200,
+        );
+      }
+    } else {
+     
+      return Container();
+    }
+  }
+
+void setattachment() { setState(() {
+      _showAttachment = !_showAttachment;
+    });
+}
  
 }

@@ -1,19 +1,60 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/task/valuecheckbox.dart';
-import 'package:provider/provider.dart';
 
 
 
-class TaskDetails extends StatelessWidget {
+
+class TaskDetails extends StatefulWidget {
   static const  String screenroute='details';
-
  final  Map <String, dynamic>  m ;
+ final int i;
    final String  d  ;
     
-   const TaskDetails({super.key, required this.m, required this.d} ); 
+   const TaskDetails({super.key, required this.m, required this.d,required this.i} ); 
+
+  @override
+  State<TaskDetails> createState() => _TaskDetailsState();
+}
+
+class _TaskDetailsState extends State<TaskDetails> {
+int count=0;
+     Future<int> getDocumentCount() async {
+    
   
+     try {
+      QuerySnapshot querySnapshot =await FirebaseFirestore.instance.collection('comment${widget.i}').get();
+      return querySnapshot.docs.length;
+    } catch (error) {
+    
+      return 0;
+    }
+      
+
+  }
+  final user=FirebaseAuth.instance.currentUser!;
+  final _commentcontroller=TextEditingController();
+  Future Submit(String a,DateTime b,String c) async {
+ FirebaseFirestore firestore=FirebaseFirestore.instance;
+  await firestore.collection('comment${widget.i}').add(
+  {
+'comment':a,
+'time':b,
+'email':c
+  }
+  );
+
+  }
+    @override
+  void initState() {
+    super.initState();
+    getDocumentCount().then((documentcount) {
+      setState(() {
+        count = documentcount;
+      });
+    });
+  }
+
 
 
   @override
@@ -50,7 +91,7 @@ class TaskDetails extends StatelessWidget {
                            Expanded(
                              child: GestureDetector(
                                onTap: () {
-                                FirebaseFirestore.instance.collection('post').doc(d).delete();
+                                FirebaseFirestore.instance.collection('post').doc(widget.d).delete();
                                  Navigator.pushNamed(context, 'welcome');
                                },
                                child: Padding(
@@ -100,24 +141,80 @@ class TaskDetails extends StatelessWidget {
         children:[
              const Text('email',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-            Text(m['email'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+            Text(widget.m['email'] ?? 'not enregistred',style:const TextStyle(fontSize: 20,color: Colors.blue),),
                                           const Text('task',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-                              Text(m['task']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+                              Text(widget.m['task']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
                                                           const Text('description',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-              Text(m['description']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+              Text(widget.m['description']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
                                           const Text('start',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
                                        
 
-            Text('${m['start']?.toDate().year}-${m['start']?.toDate().month.toString().padLeft(2, '0')}-${m['start']?.toDate().day.toString().padLeft(2, '0')} ${m['start']?.toDate().hour.toString().padLeft(2, '0')}:${m['start']?.toDate().minute.toString().padLeft(2, '0')}:${m['start']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
+            Text('${widget.m['start']?.toDate().year}-${widget.m['start']?.toDate().month.toString().padLeft(2, '0')}-${widget.m['start']?.toDate().day.toString().padLeft(2, '0')} ${widget.m['start']?.toDate().hour.toString().padLeft(2, '0')}:${widget.m['start']?.toDate().minute.toString().padLeft(2, '0')}:${widget.m['start']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
                                           const Text('due',style:TextStyle(fontSize: 20,color:Colors.black,fontStyle: FontStyle.italic),),
 
-        Text('${m['due']?.toDate().year}-${m['due']?.toDate().month.toString().padLeft(2, '0')}-${m['due']?.toDate().day.toString().padLeft(2, '0')} ${m['due']?.toDate().hour.toString().padLeft(2, '0')}:${m['due']?.toDate().minute.toString().padLeft(2, '0')}:${m['due']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
+        Text('${widget.m['due']?.toDate().year}-${widget.m['due']?.toDate().month.toString().padLeft(2, '0')}-${widget.m['due']?.toDate().day.toString().padLeft(2, '0')} ${widget.m['due']?.toDate().hour.toString().padLeft(2, '0')}:${widget.m['due']?.toDate().minute.toString().padLeft(2, '0')}:${widget.m['due']?.toDate().second.toString().padLeft(2, '0')}',style:const TextStyle(fontSize: 20,color: Colors.blue)),
                                           const Text('priority',style: TextStyle(fontSize: 20,color: Colors.black,fontStyle: FontStyle.italic)),
-              Text(m['priority']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
-
+              Text(widget.m['priority']?? 'No email available',style:const TextStyle(fontSize: 20,color: Colors.blue),),
+   const Divider(thickness: 2.0,color: Colors.black,),
+                      Row(children:[const Icon(Icons.comment),Text('$count comment(s)')]), 
+                    const Divider(thickness: 2.0,color: Colors.black,),
             //  Text(Provider.of<check>(context,listen: false).scale,style:const TextStyle(fontSize: 20,color: Colors.blue),),
+        Expanded(
+          child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('comment${widget.i}').orderBy('time',descending: true).snapshots(),
+              builder:(BuildContext context,AsyncSnapshot <QuerySnapshot> snapshot )
+              {
+          if(snapshot.hasError) { return const Center(child: Text('Not found'));}
+          if (snapshot.connectionState==ConnectionState.waiting)
+          {return const Center(child: CircularProgressIndicator());}
+             
+          return ListView( padding: EdgeInsets.zero,
+          shrinkWrap: true,
+                  
+            children: snapshot.data!.docs.map((DocumentSnapshot document)
+            {Map<String,dynamic> data =document.data()! as Map<String,dynamic> ;
+               if (data['comment'] == null) {
+              return const SizedBox(); // You can return an empty widget or handle this case as per your requirement.
+            }
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding:const EdgeInsets.all(12.0),
+                  decoration: const BoxDecoration(color: Color.fromARGB(255, 204, 101, 178),borderRadius: BorderRadius.all( Radius.circular(20))),
+                  child: ListTile(
+                    leading: CircleAvatar(backgroundColor: Colors.white,child: Text(data['email'].toString().substring(0,2).toUpperCase(),style: const TextStyle(color: Colors.blue),),),
+                    // ignore: dead_code
+                    title: Text(data['comment']??'',style: const TextStyle(color: Colors.white),),
+                   subtitle:  Text(data['email']??'',style: const TextStyle(color: Colors.white),),
+                   trailing: IconButton(icon: const Icon(Icons.delete),onPressed: (){
+                    setState(() {
+                       FirebaseFirestore.instance.collection('comment${widget.i}').doc(document.id).delete();count--;
+                    });
+                      
+                   },),
+                  ),
+                ),
+              );
+            }).toList(),
+                    
+            
+          );
+            // if(snapshot.hasData && snapshot.data!.docs.isNotEmpty) {               return Center(child: const Text('No tasks found'));
+            
+               
+            },
+            
+            
+            ),
+        )
+        
+        
+        
+        
+        
+        
         ]
 
 
@@ -125,7 +222,22 @@ class TaskDetails extends StatelessWidget {
       
       ),
     ),
-
+bottomNavigationBar: 
+                BottomAppBar(shape:const CircularNotchedRectangle(),
+        child:  Row(children: [
+                Expanded(child: TextField(controller:_commentcontroller,decoration: const InputDecoration(hintText: 'Write a comment...')))
+           ,    const SizedBox(width: 10,),
+            
+            IconButton(onPressed: (){
+            
+            Submit(_commentcontroller.text, DateTime.now(),user.email??'');
+            setState(()  {
+               count++;
+                _commentcontroller.text='';
+            });
+            }, icon:const  Icon(Icons.send))
+            
+         ] ,))  ,
 
 
     );

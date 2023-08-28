@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:myapp/time/projectdata.dart';
 import 'package:provider/provider.dart';
 
-import 'clientdetails.dart';
+import 'logdetails.dart';
 
-class client extends StatefulWidget {
-  static const screenroute='client';
-  const client({super.key});
+class timelog extends StatefulWidget {
+  static const screenroute='timelog';
+  const timelog({super.key});
 
   @override
-  State<client> createState() => _clientState();
+  State<timelog> createState() => _timelogState();
 }
 
-class _clientState extends State<client> {
+class _timelogState extends State<timelog> {
   @override
   Widget build(BuildContext context) {
-return Scaffold(
+   return Scaffold(
          body:StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('client').snapshots(),
+      stream: FirebaseFirestore.instance.collection('timelog').snapshots(),
       builder:(BuildContext context,AsyncSnapshot <QuerySnapshot> snapshot )
       {
         if(snapshot.hasError) { return const Center(child: Text('No tasks found'));}
@@ -28,7 +28,7 @@ return Scaffold(
         return ListView(
           children: snapshot.data!.docs.map((DocumentSnapshot document)
           {Map<String,dynamic> data =document.data()! as Map<String,dynamic> ;
-             if (data['name'] == null) {
+             if (data['job'] == null) {
       return const SizedBox(); // You can return an empty widget or handle this case as per your requirement.
     }
             return TextButton(
@@ -36,7 +36,7 @@ return Scaffold(
                 Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => clientdetails(m: data, d: document.id),
+                builder: (context) => logdetails(m: data, d: document.id),
               ),
             
           
@@ -48,10 +48,10 @@ return Scaffold(
                   padding:const EdgeInsets.all(12.0),
                   decoration: const BoxDecoration(color: Color.fromARGB(255, 204, 101, 178),borderRadius: BorderRadius.all( Radius.circular(20))),
                   child: ListTile(
-                    leading: const CircleAvatar(backgroundColor: Colors.white,child: Icon(Icons.verified_user),),
+                    leading: const CircleAvatar(backgroundColor: Colors.white,child: Icon(Icons.person),),
                     // ignore: dead_code
-                    title: Text(data['name']??'',style: const TextStyle(color: Colors.white),),
-            
+                    title: Text(data['job']??'',style: const TextStyle(color: Colors.white),),
+                    subtitle:  Text('${data['time']?.toDate().year}-${data['time']?.toDate().month.toString().padLeft(2, '0')}-${data['time']?.toDate().day.toString().padLeft(2, '0')} ',style:const TextStyle(fontSize: 10,color: Colors.black)), 
                   ),
                 ),
               ),
@@ -68,15 +68,14 @@ return Scaffold(
     
     ) ,
       
-      appBar: AppBar(centerTitle:true,title: const Text('Clients',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),
-      leading: IconButton(onPressed: (){    Provider.of<projectdata>(context,listen:false).init();
-Navigator.pushNamed(context,'time');}, icon:const  Icon(Icons.exit_to_app)),
+      appBar: AppBar(centerTitle:true,title: const Text('Time Logs',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),
+      leading: IconButton(onPressed: (){     Provider.of<projectdata>(context,listen:false).init();
+Navigator.pushNamed(context,'time');}, icon:const Icon(Icons.exit_to_app)),
       actions:[ IconButton(icon: const Icon(Icons.add),onPressed: ()  {
-       
-Provider.of<projectdata>(context,listen:false).init();
+     Provider.of<projectdata>(context,listen:false).init();
           setState(() {
          
-          Navigator.pushNamed(context,'addclient');
+          Navigator.pushNamed(context,'addtime');
       
         });
         
@@ -102,5 +101,3 @@ Provider.of<projectdata>(context,listen:false).init();
 }
 
 
-
- 

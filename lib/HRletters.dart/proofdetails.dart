@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/HRletters.dart/yesno.dart';
-import 'package:provider/provider.dart';
 
 class proofdetails extends StatelessWidget {
   static const String screenroute='proofdetails';

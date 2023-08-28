@@ -58,7 +58,6 @@ class _choosetravelState extends State<choosetravel> {
       return const SizedBox();
     }
     final travelData = Provider.of<traveldata>(context);
-    final currentIndex = index;
  final bool isChecked = travelData.values.isNotEmpty && index >= 0 && index < travelData.values.length && travelData.values[index];
     return ListTile(
       title: Text('TravelID${data['travelid']}'),

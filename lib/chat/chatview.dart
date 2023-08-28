@@ -1,20 +1,19 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'colldetails.dart';
+import '../models/index.dart';
+import 'messenger.dart';
 
-class colldept extends StatefulWidget {
-  static const screenroute = 'colldept';
-  const colldept({super.key});
+class chatview extends StatefulWidget {
+  static const String screenroute='chatview';
+  const chatview({super.key});
 
   @override
-  State<colldept> createState() => _colldeptState();
+  State<chatview> createState() => _chatviewState();
 }
 
-class _colldeptState extends State<colldept> {
+class _chatviewState extends State<chatview> {
   final _searchcontroller = TextEditingController();
   List<String> coll = [];
     List<String> filteredcoll = [];
@@ -58,7 +57,7 @@ class _colldeptState extends State<colldept> {
                      itemBuilder:(context,index) {
                       return   TextButton(
                     onPressed: () async {  
-                      
+                      Provider.of<pos>(context,listen:false).index=2;
                 
                       
                      // update(); 
@@ -73,10 +72,10 @@ class _colldeptState extends State<colldept> {
                             if (querySnapshot.docs.isNotEmpty) {
                               QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot = querySnapshot.docs[0];
                               Map<String, dynamic> data = documentSnapshot.data();
-                   BuildContext detailscontext = context;
+                   BuildContext chatcontext = context;
                 
                           Future.delayed(Duration.zero, () {
-                            navigateToColldetails(detailscontext, data);
+                            navigateToChat(chatcontext, data);
                           });
                             } else {
                               //print("Document not found");
@@ -120,7 +119,7 @@ class _colldeptState extends State<colldept> {
       appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            'Colleagues',
+            'We Chat',
             style: TextStyle(color: Colors.white, fontSize: 40),
           ),
           backgroundColor: const Color.fromARGB(255, 223, 130, 161),
@@ -129,16 +128,7 @@ class _colldeptState extends State<colldept> {
                 Navigator.pop(context);
               },
               icon: Icon(Icons.exit_to_app)),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                setState(() {
-                  // Navigator.pushNamed(context,'colldept');
-                });
-              },
-            ),
-          ]),
+         ),
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),
     );
   }
@@ -156,11 +146,11 @@ class _colldeptState extends State<colldept> {
         filteredcoll = mycoll;
     });
   }
-   void navigateToColldetails(BuildContext context, Map<String, dynamic> data) {
+   void navigateToChat(BuildContext context, Map<String, dynamic> data) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => colldetails(m: data,),
+        builder: (context) => messenger(m: data['email'],),
       ),
     );
   }

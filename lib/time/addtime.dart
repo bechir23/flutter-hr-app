@@ -1,26 +1,22 @@
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:myapp/time/projectdata.dart';
 import 'package:provider/provider.dart';
 
-import 'assigneesview.dart';
-
-class addjob extends StatefulWidget {
-  static const String screenroute='addjob';
-  const addjob({super.key});
+class addtimelog extends StatefulWidget {
+  static const String screenroute='addtime';
+  const addtimelog({super.key});
 
   @override
-  State<addjob> createState() => _addjobState();
+  State<addtimelog> createState() => _addtimelogState();
 }
 
-class _addjobState extends State<addjob> {
- 
-      DateTime date=DateTime.now();        DateTime date1=DateTime.now();       
+class _addtimelogState extends State<addtimelog> {
+
+     DateTime date=DateTime.now();        DateTime date1=DateTime.now();       
       DateTime f=DateTime.now();  
 
 
@@ -28,8 +24,8 @@ class _addjobState extends State<addjob> {
 String ?FileName;  
 PlatformFile ?pickedfile;
 File ? fileToDisplay ;
-//  final _emailcontroller=TextEditingController();
-    final _namecontroller=TextEditingController();
+
+    final _workcontroller=TextEditingController();
       final _descriptioncontroller=TextEditingController();
      DateTime e=DateTime.now(); bool isLoading=false ;
    final GlobalKey<FormState> formkey = GlobalKey<FormState>();
@@ -54,17 +50,17 @@ fileToDisplay=File(pickedfile!.path.toString());
 }
 
 
-Future Submit(String a,String b,String c,DateTime d,DateTime e,String f,String g)
+Future Submit(String a,String b,String c,DateTime d,String e,String g)
 async{
   FirebaseFirestore firestore=FirebaseFirestore.instance;
-  await firestore.collection('job').add(
+  await firestore.collection('timelog').add(
   {
-'name':a,
-'project':b,
+'project':a,
+'job':b,
 'path':c,
-'start':d,
-'end':e,
-'assignees':f,
+'time':d,
+'work':e,
+
 'description':g,
 
   }
@@ -74,8 +70,8 @@ async{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( appBar:  AppBar(centerTitle:true,title: const Text('Add Job',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),
-      leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.exit_to_app)),) ,
+    return Scaffold( appBar:  AppBar(centerTitle:true,title: const Text('Add Time Log',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),
+      leading: IconButton(onPressed: (){Navigator.pop(context);}, icon:const Icon(Icons.exit_to_app)),) ,
       body: SingleChildScrollView(
         child: Container(
         
@@ -83,54 +79,67 @@ async{
         decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0)),color: Colors.white),
         child:   Form(key: formkey,
           child: Column(children: [
-        
+              Consumer<projectdata>(
+  builder: (context, projectData, _) {
+    return Column(
+      children: [
+        ListTile(
+          title: const Text('Project'),
+          trailing: IconButton(
+            onPressed: () {
+                Navigator.pushNamed(context,'projectview'
+          
+          );
+            },
+            icon: const Icon(Icons.navigate_next),
+          ),
+        ),
+        Text('Selected: ${projectData.selected[0]}'),
+      ],
+    );
+  },
+),
+           const SizedBox(height: 10,),
+              Consumer<projectdata>(
+  builder: (context, projectData, _) {
+    return Column(
+      children: [
+        ListTile(
+          title: const Text('Job'),
+          trailing: IconButton(
+            onPressed: () {
+                Navigator.pushNamed(context,'jobview'
+          
+          );
+            },
+            icon: const Icon(Icons.navigate_next),
+          ),
+        ),
+        Text('Selected: ${projectData.selected[1]}'),
+      ],
+    );
+  },
+),
     
-                const Text('Job Name'),
-            TextFormField(textAlign: TextAlign.center,autofocus: true,controller: _namecontroller,validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter job name';
-              }
-              return null; }),
+                 const SizedBox(height: 10,), 
+        
           
-          
+          const Text('Work Item'),
+    
+          TextField(textAlign: TextAlign.center,autofocus: true,controller: _workcontroller,),
           
           
           
            const SizedBox(height: 10,),
-               const Text('Start Date'),
+               const Text('Date'),
           
           Text('${date.day}/${date.month}/${date.year}'),
           
-          ElevatedButton.icon(onPressed: ()async  { DateTime ? newDate =await     showDatePicker(
-          
-          context: context, initialDate: date, firstDate:DateTime(2000), lastDate: DateTime(2100));
-          
-          if (newDate==null) return;
-          
-          setState((){date=newDate;e=date;});
-          
-          }
-          
-          , icon:const Icon(Icons.calendar_today),label: const Text('End',style: TextStyle(fontSize: 20),),),
+       
                      const SizedBox(height: 10,), 
-          Text('${date1.day}/${date1.month}/${date1.year}'),
+        
           
-          ElevatedButton.icon(onPressed: ()async  { DateTime ? newDate =await     showDatePicker(
-          
-          context: context, initialDate: date, firstDate:DateTime(2000), lastDate: DateTime(2100));
-          
-          if (newDate==null) return;
-          
-          setState((){date1=newDate;f=date;});
-          
-          }
-          
-          , icon:const Icon(Icons.calendar_today),label: const Text('End',style: TextStyle(fontSize: 20),),),
-
-
-          const SizedBox(height: 10,),
-          
-          const Text('Description'),
+          const Text('description'),
     
           TextField(textAlign: TextAlign.center,autofocus: true,controller: _descriptioncontroller,),
           
@@ -164,55 +173,7 @@ async{
            const  SizedBox(),
         
                 const SizedBox(height: 10,),
-                Consumer<projectdata>(
-  builder: (context, projectData, _) {
-    return Column(
-      children: [
-        ListTile(
-          title: const Text('Assign User'),
-          trailing: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const assigneesview(i: 1),
-                ),
-              );
-            },
-            icon: const Icon(Icons.navigate_next),
-          ),
-        ),
-        Text('Selected: ${projectData.selected[1]}'),
-      ],
-    );
-  },
-                ),
-        
-        
-          
-                          const SizedBox(height: 10,),
-                          Consumer<projectdata>(
-  builder: (context, projectData, _) {
-    return Column(
-      children: [
-        ListTile(
-          title: const Text('Project'),
-          trailing: IconButton(
-            onPressed: () {
-                Navigator.pushNamed(context,'projectview'
-          
-          );
-            },
-            icon: const Icon(Icons.navigate_next),
-          ),
-        ),
-        Text('Selected: ${projectData.selected[0]}'),
-      ],
-    );
-  },
-),
-
-   
+            
           
  
           
@@ -243,21 +204,24 @@ async{
             setState(() {
           isLoading = true;
             });
-              if ( formkey.currentState!.validate()){
-          
+              if ( Provider.of<projectdata>(context,listen: false).selected[1]!=''){
+        
             Submit(
-          _namecontroller.text,
+          
          
           Provider.of<projectdata>(context,listen: false).selected[0],
+          Provider.of<projectdata>(context,listen: false).selected[1],
           fileToDisplay!.path,
-          e,f,Provider.of<projectdata>(context,listen: false).selected[1],
+          date,_workcontroller.text,
            _descriptioncontroller.text  ).then((value) {
           setState(() {
             isLoading = false;
           });
           Navigator.pop(context);
             });
-          }else {isLoading=false;}} else {
+          }else {isLoading=false;
+            showDialog(context: context, builder:(context) {
+          return const Center(child: AlertDialog(content: Text('Please choose a Job!',style: TextStyle(color: Colors.red),),));},);}} else {
             showDialog(context: context, builder:(context) {
           return const Center(child: AlertDialog(content: Text('An attachment is required!',style: TextStyle(color: Colors.red),),));},);
              

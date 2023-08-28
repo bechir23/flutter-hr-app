@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/task/taskdetails.dart';
+import 'package:provider/provider.dart';
 
 class mytasks extends StatelessWidget {
   const mytasks({super.key});
@@ -19,10 +20,10 @@ class mytasks extends StatelessWidget {
         if(snapshot.hasError) { return const Center(child: Text('No tasks found'));}
         if (snapshot.connectionState==ConnectionState.waiting)
         {return const Center(child: CircularProgressIndicator());}
-           
-        return ListView(
-          children: snapshot.data!.docs.map((DocumentSnapshot document)
-          {Map<String,dynamic> data =document.data()! as Map<String,dynamic> ;
+        return ListView.builder(itemCount: snapshot.data!.docs.length,
+        itemBuilder:(context, index) {
+          DocumentSnapshot document= snapshot.data!.docs[index];
+          Map<String,dynamic> data =document.data()! as Map<String,dynamic> ;
             if (data['email'] == null || FirebaseAuth.instance.currentUser?.email!=data['email']) {
            return const SizedBox(); // You can return an empty widget or handle this case as per your requirement.
           }
@@ -31,7 +32,7 @@ class mytasks extends StatelessWidget {
                 Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TaskDetails(m: data, d: document.id),
+                builder: (context) => TaskDetails(m: data, d: document.id,i:index),
               ),
             
           
@@ -51,7 +52,7 @@ class mytasks extends StatelessWidget {
                 ),
               ),
             );
-          }).toList(),
+          }
                   
           
         );

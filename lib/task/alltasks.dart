@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/task/taskdetails.dart';
+import 'package:myapp/task/taskpos.dart';
+import 'package:provider/provider.dart';
 
 class alltasks extends StatelessWidget {
   const alltasks({super.key});
@@ -15,24 +17,27 @@ class alltasks extends StatelessWidget {
         if(snapshot.hasError) { return const Center(child: Text('No tasks found'));}
         if (snapshot.connectionState==ConnectionState.waiting)
         {return const Center(child: CircularProgressIndicator());}
-     
-        return ListView(
-          children: snapshot.data!.docs.map((DocumentSnapshot document)
-          {Map<String,dynamic> data =document.data()! as Map<String,dynamic> ;
+      int j = snapshot.data!.docs.length;Provider.of<taskpos>(context,listen:false).index=1;
+        return ListView.builder(itemCount: snapshot.data!.docs.length,
+        itemBuilder:(context, index) {
+         DocumentSnapshot document=snapshot.data!.docs[index];
+          Map<String,dynamic> data =document.data()! as Map<String,dynamic> ;
+         
              if (data['email'] == null) {
       return const SizedBox(); // You can return an empty widget or handle this case as per your requirement.
     }
             return TextButton(
-              onPressed: () {
+              onPressed: () {  
+
+
                 Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TaskDetails(m: data, d: document.id),
+                builder: (context) => TaskDetails(m: data, d: document.id,i:j ,),
               ),
-            
           
           );
-              },
+          },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -43,12 +48,13 @@ class alltasks extends StatelessWidget {
                     // ignore: dead_code
                     title: Text(data['description']??'',style: const TextStyle(color: Colors.white),),
                     subtitle: Text(data['email']??'',style: const TextStyle(color: Colors.white),),
+
                   ),
                 ),
               ),
             );
-          }).toList(),
-                  
+          
+        }    
     
         );
     // if(snapshot.hasData && snapshot.data!.docs.isNotEmpty) {               return Center(child: const Text('No tasks found'));
@@ -60,4 +66,5 @@ class alltasks extends StatelessWidget {
     ));
   }
 }
+
 

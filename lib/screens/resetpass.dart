@@ -32,9 +32,7 @@ _emailcontroller.dispose();
     } on FirebaseAuthException
     catch(e) {
       showDialog(context: context, builder:(context){
-      return AlertDialog(
-
-content: Text(e.message.toString()),
+      return const  AlertDialog(content: Text('Check your Email.'),
       );    
          }
       
@@ -71,18 +69,16 @@ content: Text(e.message.toString()),
         onTap: Reset,
         child: Padding(
           padding: const EdgeInsets.all(12.0),
-          child: Center(
-            child: Container(
-               decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: Colors.grey,),
-              child: const Row(
-                children:  [Icon(Icons.message), 
-                SizedBox(width: 20,),
-                 Center(child: Text('Reset Password',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.white),)),
-                ],
-              ),
-                
-                  ),
-          )),
+          child: Container(width: 200,
+             decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: Colors.green,),
+            child: const Row(
+              children:  [Icon(Icons.email), 
+              SizedBox(width: 10,),
+               Text('Reset Password',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.white),),
+              ],
+            ),
+              
+                )),
       )
      ] )
       )

@@ -41,10 +41,10 @@ return Scaffold(
     }
         final projectData = Provider.of<projectdata>(context);
 
-    
+    final email = data['email'] ?? '';
  final bool isChecked = projectData.values.isNotEmpty && index >= 0 && index < projectData.values.length && projectData.values[index];
     return ListTile(
-      title: Text(data['email']),
+      title: Text(email),
       trailing: Checkbox(
         value: isChecked
            ,
@@ -53,11 +53,11 @@ return Scaffold(
        
         if (value!) {
               projectData.selectedIdx = index;
-              projectData.selected[widget.i]=data['name'];
-                     
+              projectData.updateSelected(widget.i, email);
+
                     
               projectData.values = List.generate(snapshot.data!.docs.length, (i) => i == index);
-               
+             
          } else {
              
               projectData.selectedIdx = -1;

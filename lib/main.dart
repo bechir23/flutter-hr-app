@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/AUTH.dart';
-import 'package:myapp/HRletters.dart/addadressproof.dart';
 import 'package:myapp/HRletters.dart/addressproof.dart';
 import 'package:myapp/HRletters.dart/bonafidedetails.dart';
 import 'package:myapp/HRletters.dart/bonafideletter.dart';
@@ -53,7 +52,21 @@ import 'package:myapp/screens/resetpass.dart';
 import 'package:myapp/task/ADDTASK.dart';
 import 'package:myapp/task/Priority.dart';
 import 'package:myapp/task/taskdetails.dart';
+import 'package:myapp/task/taskpos.dart';
 import 'package:myapp/task/valuecheckbox.dart';
+import 'package:myapp/time/addclient.dart';
+import 'package:myapp/time/addjob.dart';
+import 'package:myapp/time/addproject.dart';
+import 'package:myapp/time/addtime.dart';
+import 'package:myapp/time/client.dart';
+import 'package:myapp/time/clientview.dart';
+import 'package:myapp/time/job.dart';
+import 'package:myapp/time/jobview.dart';
+import 'package:myapp/time/project.dart';
+import 'package:myapp/time/projectdata.dart';
+import 'package:myapp/time/projectview.dart';
+import 'package:myapp/time/time.dart';
+import 'package:myapp/time/timescreen.dart';
 
 import 'Travel/TravelRequest.dart';
 import 'files/folder.dart';
@@ -76,12 +89,13 @@ class Myapp extends StatelessWidget {
     return MultiProvider(
       providers: [  ChangeNotifierProvider(   create: (context) => traveldata()),
                     ChangeNotifierProvider(   create: (context) => detailsdata()),
-ChangeNotifierProvider(create:(context) => fileview(),),
+ChangeNotifierProvider(create:(context) => fileview(),),ChangeNotifierProvider(create:(context) => projectdata(),),
 ChangeNotifierProvider(create:(context) => yesno(),),
 ChangeNotifierProvider(create:(context) => assets(),),
 ChangeNotifierProvider(create:(context) => medicaldata(),),
 ChangeNotifierProvider(create: (context)=>pos()),
                     ChangeNotifierProvider(   create: (context) => folderdata()),
+                    ChangeNotifierProvider(   create: (context) => taskpos()),
 
       ChangeNotifierProvider(   create: (context) => check())
 ],
@@ -93,7 +107,7 @@ ChangeNotifierProvider(create: (context)=>pos()),
         // const ,//Scrollbar(isAlwaysShown:true,child: TasksScreen()),
        routes: {AddTask.screenroute :(context) => const AddTask(),
        Degree.screenroute:(context) => const Degree(),
-       TaskDetails.screenroute:(context) => const  TaskDetails(m:{},d:''),
+       TaskDetails.screenroute:(context) => const  TaskDetails(m:{},d:'',i: 0,),
        auth.screenroute:(context) => const auth(),
        signup.screenroute:(context) => const signup(),
               reset.screenroute:(context) => const reset(),
@@ -139,7 +153,18 @@ TasksList.screenroute:(context) => const TasksList(),
 TasksScreen.screenroute:(context)=> const TasksScreen(),
 leave.screenroute:(context) => const leave(),
 leaverequest.screenroute:(context) => const leaverequest(),
-
+job.screenroute:(context) => const job(),
+project.screenroute:(context) => const project(),
+timescreen.screenroute:(context) => const timescreen(),
+client.screenroute:(context) => const client(),
+clientview.screenroute:(context) => const clientview(),
+projectview.screenroute:(context) => const projectview(),
+addjob.screenroute:(context) => const addjob(),
+addclient.screenroute:(context) => const addclient(),
+addproject.screenroute:(context) => const addproject(),
+addtimelog.screenroute:(context) => const addtimelog(),
+timelog.screenroute:(context) => const timelog(),
+jobview.screenroute:(context) => const jobview(),
   },)
     );}}    
     

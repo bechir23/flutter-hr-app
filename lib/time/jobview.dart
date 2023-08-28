@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:myapp/time/projectdata.dart';
 import 'package:provider/provider.dart';
 
-
-class projectview extends StatefulWidget {
-  static const String screenroute='projectview';
-  const projectview({super.key});
+class jobview extends StatefulWidget {
+  static const screenroute='jobview';
+  const jobview({super.key});
 
   @override
-  State<projectview> createState() => _projectviewState();
+  State<jobview> createState() => _jobviewState();
 }
 
-class _projectviewState extends State<projectview> {
+class _jobviewState extends State<jobview> {
   @override
   Widget build(BuildContext context) {
  return Scaffold(
@@ -22,10 +21,10 @@ class _projectviewState extends State<projectview> {
    // Provider.of<traveldata>(context,listen: false).update() ;
           
         
-      },),title: const Text('Project',textAlign:TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 40),),),
+      },),title: const Text('Job',textAlign:TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 40),),),
         backgroundColor: const Color.fromARGB(255, 240, 128, 165),
         body: StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('project').snapshots(),
+      stream: FirebaseFirestore.instance.collection('job').snapshots(),
       builder:(BuildContext context,AsyncSnapshot <QuerySnapshot> snapshot )
       {
         if(snapshot.hasError) { return const Center(child: Text('No tasks found'));}
@@ -54,7 +53,7 @@ class _projectviewState extends State<projectview> {
        
         if (value!) {
               projectData.selectedIdx = index;
-              projectData.updateSelected(0, name);
+              projectData.updateSelected(1, name);
               projectData.values = List.generate(snapshot.data!.docs.length, (i) => i == index);
                
          } else {

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/NewWidget.dart';
 import 'package:myapp/models/widget.dart';
-import 'package:provider/provider.dart';
+
 
 class TasksList extends StatefulWidget {
 static const screenroute='main';

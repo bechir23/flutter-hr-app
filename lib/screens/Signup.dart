@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';import 'package:http/http.dart' as http;import 'dart:convert';
 
 class signup extends StatefulWidget {
   static const screenroute='signup';
@@ -11,7 +11,7 @@ class signup extends StatefulWidget {
 
 class _signupState extends State<signup> {
   final  _emailcontroller=TextEditingController();
-    final _passcontroller=TextEditingController();
+    final _passcontroller=TextEditingController();bool show=true;bool show1=true;
     final _confirmpasscontroller=TextEditingController();
   @override
     void dispose(){
@@ -29,8 +29,9 @@ _confirmpasscontroller.dispose();
       if (confirmpass()) {
         try{   
   {  await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailcontroller.text.trim(), password: _passcontroller.text.trim());
-    // ignore: use_build_context_synchronously
+    
     Navigator.pushNamed(context,'company');
+    sendEmail(email: _emailcontroller.text);
     } } catch(e) { 
       showDialog(context: context, builder:(context){
       return AlertDialog(
@@ -73,13 +74,25 @@ content: Text(e.toString(),style:const  TextStyle(color: Colors.red),),
         padding: const EdgeInsets.all(12.0),
         child: Container(
           decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: Colors.white,),
-          child:  TextField(controller:_emailcontroller,decoration: const InputDecoration(hintText: 'EMAIL'),)),
+          child: 
+          
+          
+          
+           TextField(controller:_emailcontroller,decoration: const InputDecoration(hintText: 'EMAIL'),)),
       ),  Padding (
         padding: const EdgeInsets.all(12.0),
         child: Container(
           decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: Colors.white,),
-          child:  TextField(controller:_passcontroller,decoration: const InputDecoration(hintText: 'PASSWORD'),)),
-      ),
+          child:  Row(children: [
+              Expanded(child: TextField( obscureText: !show,controller:_passcontroller,decoration: const InputDecoration(hintText: 'PASSWORD'),)),
+             const SizedBox(width: 10,),
+          
+          IconButton(onPressed: (){setState(() {
+            show=!show;
+          });}, icon: show ?const  Icon(Icons.visibility):const Icon(Icons.visibility_off))
+          
+               ] ),)),
+      
       const SizedBox(height: 5,),
     const   Text('Six characters at least ',style: TextStyle(color: Color.fromARGB(255, 224, 215, 215),fontSize: 18),),
       const SizedBox(height: 5,),
@@ -88,11 +101,23 @@ content: Text(e.toString(),style:const  TextStyle(color: Colors.red),),
         padding: const EdgeInsets.all(12.0),
         child: Container(
           decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: Colors.white,),
-          child:  TextField(controller:_confirmpasscontroller,decoration: const InputDecoration(hintText: 'CONFIRM PASSWORD'),)),
-      ),
+          child: Row(children: [
+              Expanded(child: TextField( obscureText: !show1,controller:_confirmpasscontroller,decoration: const InputDecoration(hintText: 'CONFIRM PASSWORD'),)),
+             const SizedBox(width: 10,),
+          
+          IconButton(onPressed: (){setState(() {
+            show1=!show1;
+          });}, icon: show1 ?const  Icon(Icons.visibility):const Icon(Icons.visibility_off))
+          
+               ] ),)),
+          
+          
+          
+   
+      
     const SizedBox(height: 20,),
       GestureDetector(
-        onTap: SignUp,
+        onTap:(){ SignUp();},
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Container(
@@ -128,4 +153,36 @@ content: Text(e.toString(),style:const  TextStyle(color: Colors.red),),
 
     );
   }
+  Future<void> sendEmail({
+ // required String name,
+  required String email,
+  //required String subject,
+//  required String message,
+}) async {
+  const serviceId = 'service_7x8jstp';
+  const templateId = 'template_ixxgn3w';
+  const userId = 'CEdfAGpIBndksBso3';
+
+  final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+  final response = await http.post(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: json.encode({
+      'service_id': serviceId,
+      'template_id': templateId,
+      'user_id': userId,
+      'template_params': {
+      //  'user_name': name,
+        'user_email': email,
+      //  'user_subject': subject,
+     //   'user_message': message,
+      },
+    }),
+  );
+
+
+}
+    
 }

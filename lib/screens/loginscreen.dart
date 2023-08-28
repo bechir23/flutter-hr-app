@@ -10,7 +10,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-    final  _emailcontroller=TextEditingController();
+    final  _emailcontroller=TextEditingController();bool show=true;
     final _passcontroller=TextEditingController();
   @override
     void dispose(){
@@ -20,8 +20,14 @@ _passcontroller.dispose();
 
     }
     Future SignIn() async
-    {
+    {try{
     await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailcontroller.text.trim(), password: _passcontroller.text.trim());
+    } catch(e) {  showDialog(context: context, builder:(context) {
+
+          return const Center(child: AlertDialog(content: Text('The password is invalid or the user does not have a password',style: TextStyle(color: Colors.red),),));},);
+        
+             }
+    
     }
 
   @override
@@ -48,8 +54,16 @@ _passcontroller.dispose();
         padding: const EdgeInsets.all(12.0),
         child: Container(
           decoration: BoxDecoration(borderRadius:BorderRadius.circular((12)),color: Colors.white,),
-          child:  TextField(controller:_passcontroller,decoration: const InputDecoration(hintText: 'PASSWORD'),)),
-      ),
+          child:  Row(children: [
+              Expanded(child: TextField( obscureText: !show,controller:_passcontroller,decoration: const InputDecoration(hintText: 'PASSWORD'),)),
+             const SizedBox(width: 10,),
+          
+          IconButton(onPressed: (){setState(() {
+            show=!show;
+          });}, icon: show ?const  Icon(Icons.visibility):const Icon(Icons.visibility_off))
+          
+               ] ),)),
+      
     const SizedBox(height: 20,),
       GestureDetector(
         onTap: SignIn,
