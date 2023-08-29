@@ -111,42 +111,41 @@ class _leaveState extends State<leave> {
                       return const SizedBox(); // You can return an empty widget or handle this case as per your requirement.
                     }
                     return TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                leavedetails(m: data, d: document.id),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          padding: const EdgeInsets.all(12.0),
-                          decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 204, 101, 178),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          
-                          child: ListTile(  title: Text(
-                              data['reason'] ?? '',
-                              style: const TextStyle(color: Colors.white),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  leavedetails(m: data, d: document.id),
                             ),
-                            leading: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              child: Text(
-                                data['email']
-                                    .toString()
-                                    .substring(0, 2)
-                                    .toUpperCase(),
-                                style: const TextStyle(color: Colors.blue),
-                              ),
-                            ),
-                            // ignore: dead_code
-                            subtitle: Column(
-                              children: [
-                                Row(children: [
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 204, 101, 178),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            child: ListTile(
+                                title: Text(
+                                  data['reason'] ?? '',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  child: Text(
+                                    data['email']
+                                        .toString()
+                                        .substring(0, 2)
+                                        .toUpperCase(),
+                                    style: const TextStyle(color: Colors.blue),
+                                  ),
+                                ),
+                                // ignore: dead_code
+                                subtitle: Column(children: [
+                                  Row(children: [
                                     const Icon(Icons.calendar_month),
                                     const SizedBox(
                                       width: 5,
@@ -156,9 +155,11 @@ class _leaveState extends State<leave> {
                                       style: const TextStyle(
                                           color: Colors.black, fontSize: 10),
                                     )
-                                  ]) ,
-                          const      SizedBox(height: 5,),
-                                 Row(children: [
+                                  ]),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(children: [
                                     const Icon(Icons.calendar_month),
                                     const SizedBox(
                                       width: 5,
@@ -169,15 +170,11 @@ class _leaveState extends State<leave> {
                                           color: Colors.black, fontSize: 10),
                                     )
                                   ])
-                                ])
-      ),
-                            ),
-                            //        subtitle: Text('${data['separationdate']?.toDate().year}-${data['separationdate']?.toDate().month.toString().padLeft(2, '0')}-${data['separationdate']?.toDate().day.toString().padLeft(2, '0')} ${data['separationdate']?.toDate().hour.toString().padLeft(2, '0')}:${data['separationdate']?.toDate().minute.toString().padLeft(2, '0')}:${data['separationdate']?.toDate().second.toString().padLeft(2, '0')}',style: const TextStyle(color: Colors.white),),
-                          )
-                        
-                      
-                    
-                  )  ; }).toList(),
+                                ])),
+                          ),
+                          //        subtitle: Text('${data['separationdate']?.toDate().year}-${data['separationdate']?.toDate().month.toString().padLeft(2, '0')}-${data['separationdate']?.toDate().day.toString().padLeft(2, '0')} ${data['separationdate']?.toDate().hour.toString().padLeft(2, '0')}:${data['separationdate']?.toDate().minute.toString().padLeft(2, '0')}:${data['separationdate']?.toDate().second.toString().padLeft(2, '0')}',style: const TextStyle(color: Colors.white),),
+                        ));
+                  }).toList(),
                 );
                 // if(snapshot.hasData && snapshot.data!.docs.isNotEmpty) {               return Center(child: const Text('No tasks found'));
               },
@@ -201,7 +198,7 @@ class _leaveState extends State<leave> {
           leading: IconButton(
               icon: const Icon(Icons.exit_to_app),
               onPressed: () {
-                Provider.of<pos>(context, listen: false).index = 1;
+                Provider.of<pos>(context, listen: false).index = 0;
                 Navigator.pushNamed(context, 'navigation');
               })),
       backgroundColor: const Color.fromARGB(255, 223, 130, 161),

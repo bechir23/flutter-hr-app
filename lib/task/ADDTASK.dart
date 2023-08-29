@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:myapp/task/addtaskscreen.dart';
 import 'package:myapp/task/alltasks.dart';
@@ -10,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../models/index.dart';
 
 class AddTask extends StatefulWidget {
-  static const String screenroute='welcome';
+  static const String screenroute = 'welcome';
   const AddTask({super.key});
 
   @override
@@ -18,73 +17,63 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
- int index=0;
-final pages=[
-
-   
-  
-  
-  
-             const mytasks(),    const alltasks()
-  
-    ];
-  
-  
-
+  int index = 0;
+  final pages = [const mytasks(), const alltasks()];
 
   @override
   Widget build(BuildContext context) {
-    
-    
     return Scaffold(
-         body: pages[Provider.of<taskpos>(context,listen:false).index],
-       
+      body: pages[Provider.of<taskpos>(context, listen: false).index],
       bottomNavigationBar: NavigationBar(
-        selectedIndex:Provider.of<taskpos>(context,listen:false).index ,
-        onDestinationSelected: (index) =>setState(() {
-         Provider.of<taskpos>(context,listen:false).index=index; 
-        }),
-        height: 60,
-        destinations:const  [
-NavigationDestination(icon:Icon( Icons.my_library_add), label:'My Tasks',),
-NavigationDestination(icon:Icon( Icons.library_add), label:'All Tasks'),
-
-
-
-        ] 
-      ),
-      appBar: AppBar(centerTitle:true,title: const Text('List of Taks',style: TextStyle(color: Colors.white,fontSize: 40),),backgroundColor: const Color.fromARGB(255, 223, 130, 161),leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: () { Provider.of<pos>(context,listen: false).index=1;Navigator.pushNamed(context,'navigation');        
- Provider.of<check>(context,listen: false).init();})),
-     
-      backgroundColor: const Color.fromARGB(255, 223, 130, 161),
-     floatingActionButton: FloatingActionButton(onPressed:()
-     {Provider.of<check>(context,listen: false).init();
-      showModalBottomSheet(isScrollControlled: true,context: context, builder: (context) => 
-     SingleChildScrollView(
-    
-     child: Container(
-      padding: EdgeInsets.only(bottom:MediaQuery.of(context).viewInsets.bottom,),
-      child: const AddTaskScreen()),
-       
-     ));},
-    backgroundColor:Colors.white,
-      child: const Icon(Icons.add,color: Colors.pink,),
-          
+          selectedIndex: Provider.of<taskpos>(context, listen: false).index,
+          onDestinationSelected: (index) => setState(() {
+                Provider.of<taskpos>(context, listen: false).index = index;
+              }),
+          height: 60,
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.my_library_add),
+              label: 'My Tasks',
+            ),
+            NavigationDestination(
+                icon: Icon(Icons.library_add), label: 'All Tasks'),
+          ]),
+      appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            'List of Taks',
+            style: TextStyle(color: Colors.white, fontSize: 40),
           ),
-    
-   
-   
-    
-
-    
-    
-    
-
-       
-    )
-    
-      
-    ;
+          backgroundColor: const Color.fromARGB(255, 223, 130, 161),
+          leading: IconButton(
+              icon: const Icon(Icons.exit_to_app),
+              onPressed: () {
+                Provider.of<pos>(context, listen: false).index = 0;
+                Navigator.pushNamed(context, 'navigation');
+                Provider.of<check>(context, listen: false).init();
+              })),
+      backgroundColor: const Color.fromARGB(255, 223, 130, 161),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Provider.of<check>(context, listen: false).init();
+          showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (context) => SingleChildScrollView(
+                    child: Container(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: const AddTaskScreen()),
+                  ));
+        },
+        backgroundColor: Colors.white,
+        child: const Icon(
+          Icons.add,
+          color: Colors.pink,
+        ),
+      ),
+    );
   }
 }
    
