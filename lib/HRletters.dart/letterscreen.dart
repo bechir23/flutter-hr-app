@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/index.dart';
 
 class letterscreen extends StatefulWidget {
-  static const String screenroute='letter';
+  static const String screenroute = 'letter';
   const letterscreen({super.key});
 
   @override
@@ -14,39 +14,54 @@ class letterscreen extends StatefulWidget {
 class _letterscreenState extends State<letterscreen> {
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 228, 114, 152),
-        leading: IconButton(icon: const Icon(Icons.exit_to_app),onPressed: ()  {
-     
-          setState(() {
-         Provider.of<pos>(context,listen: false).index=1;
-          Navigator.pushNamed(context,'navigation');
-      
-        });
-        
-      },),title: const Text('HR Letters',style: TextStyle(color: Colors.white,fontSize: 40),),centerTitle: true,),
-        backgroundColor: const Color.fromARGB(255, 240, 128, 165),
-        body: ListView(
-        children: [ GestureDetector(
-          onTap: (){Navigator.pushNamed(context, 'proof');},
+        leading: IconButton(
+          icon: const Icon(Icons.exit_to_app),
+          onPressed: () {
+            setState(() {
+              Provider.of<pos>(context, listen: false).index = 0;
+              Navigator.pushNamed(context, 'navigation');
+            });
+          },
+        ),
+        title: const Text(
+          'HR Letters',
+          style: TextStyle(color: Colors.white, fontSize: 40),
+        ),
+        centerTitle: true,
+      ),
+      backgroundColor: const Color.fromARGB(255, 240, 128, 165),
+      body: ListView(children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, 'proof');
+          },
           child: const ListTile(
-            title: Text('Address Proof'),trailing: Icon(Icons.skip_next),
+            title: Text('Address Proof'),
+            trailing: Icon(Icons.skip_next),
           ),
         ),
-         GestureDetector(
-           onTap: (){Navigator.pushNamed(context, 'bonafide');},
-           child: const ListTile(
-             title: Text('Bonafide Letter'),trailing: Icon(Icons.skip_next),
-                 ),
-         ),
-          GestureDetector(
-           onTap: (){Navigator.pushNamed(context, 'experience');},
-           child: const ListTile(
-             title: Text('Experience Letter'),trailing: Icon(Icons.skip_next),
-                 ),
-         ),
-        ]),
-      );  
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, 'bonafide');
+          },
+          child: const ListTile(
+            title: Text('Bonafide Letter'),
+            trailing: Icon(Icons.skip_next),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, 'experience');
+          },
+          child: const ListTile(
+            title: Text('Experience Letter'),
+            trailing: Icon(Icons.skip_next),
+          ),
+        ),
+      ]),
+    );
   }
 }

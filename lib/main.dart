@@ -20,6 +20,7 @@ import 'package:myapp/cases/addquestion.dart';
 import 'package:myapp/cases/casesdetails.dart';
 import 'package:myapp/cases/casesscreen.dart';
 import 'package:myapp/cases/questions.dart';
+import 'package:myapp/chat/chatview.dart';
 import 'package:myapp/compensation/addmedical.dart';
 import 'package:myapp/compensation/asset.dart';
 import 'package:myapp/compensation/assetdetails.dart';
@@ -165,6 +166,7 @@ addproject.screenroute:(context) => const addproject(),
 addtimelog.screenroute:(context) => const addtimelog(),
 timelog.screenroute:(context) => const timelog(),
 jobview.screenroute:(context) => const jobview(),
+chatview.screenroute:(context) => const chatview(),
   },)
     );}}    
     
