@@ -31,6 +31,7 @@ import 'package:myapp/compensation/medical.dart';
 import 'package:myapp/compensation/typeassets.dart';
 import 'package:myapp/files/ADDFILE.dart';
 import 'package:myapp/files/employeedetails.dart';
+import 'package:myapp/files/fileindex.dart';
 import 'package:myapp/files/fileview.dart';
 import 'package:myapp/files/folderdata.dart';
 import 'package:myapp/files/organizationdetails.dart';
@@ -106,6 +107,7 @@ class Myapp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => medicaldata(),
           ),
+          ChangeNotifierProvider(create: (context) => fileindex()),
           ChangeNotifierProvider(create: (context) => pos()),
           ChangeNotifierProvider(create: (context) => folderdata()),
           ChangeNotifierProvider(create: (context) => taskpos()),

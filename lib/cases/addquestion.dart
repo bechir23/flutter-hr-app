@@ -57,9 +57,11 @@ class _addquestionState extends State<addquestion> {
           allowMultiple: false);
 
       if (result != null && result!.files.isNotEmpty) {
-        FileName = result!.files.first.path;
-        pickedfile = result!.files.first;
-        fileToDisplay = File(pickedfile!.path.toString());
+        setState(() {
+          FileName = result!.files.first.path;
+          pickedfile = result!.files.first;
+          fileToDisplay = File(pickedfile!.path.toString());
+        });
       }
     } catch (e) {
       showDialog(
@@ -84,211 +86,217 @@ class _addquestionState extends State<addquestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Add Question',
-          style: TextStyle(color: Colors.white, fontSize: 40),
-        ),
-        backgroundColor: const Color.fromARGB(255, 223, 130, 161),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.exit_to_app)),
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: formkey,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            ListTile(
-              title: const Text('Priority'),
-              trailing: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pushNamed(context, 'priority');
-                    });
-                  },
-                  icon: const Icon(Icons.navigate_next)),
-            ),
-            Text(Provider.of<check>(context).scale),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text('Query'),
-            TextFormField(
-              textAlign: TextAlign.center,
-              autofocus: true,
-              controller: _querycontroller,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter query';
-                }
-                return null;
+    return Listener(
+      onPointerDown: (_) {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            'Add Question',
+            style: TextStyle(color: Colors.white, fontSize: 40),
+          ),
+          backgroundColor: const Color.fromARGB(255, 223, 130, 161),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
               },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text('Description'),
-            TextField(
-              textAlign: TextAlign.center,
-              autofocus: true,
-              controller: _descriptioncontroller,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text('Attachment'),
-            const SizedBox(
-              height: 10,
-            ),
-            Center(
-                child: GestureDetector(
-                    onTap: () {
-                      pickfile();
+              icon: Icon(Icons.exit_to_app)),
+        ),
+        body: SingleChildScrollView(
+          child: Form(
+            key: formkey,
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              ListTile(
+                title: const Text('Priority'),
+                trailing: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pushNamed(context, 'priority');
+                      });
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          right: 70, left: 70, top: 5, bottom: 5),
-                      child: Container(
-                          color: Colors.black,
-                          child: const ListTile(
-                            iconColor: Colors.white,
-                            leading: Icon(Icons.attach_file),
-                            title: Text(
-                              'Add attachmets',
-                              style: TextStyle(color: Colors.white),
+                    icon: const Icon(Icons.navigate_next)),
+              ),
+              Text(Provider.of<check>(context).scale),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text('Query'),
+              TextFormField(
+                textAlign: TextAlign.center,
+                autofocus: true,
+                controller: _querycontroller,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter query';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text('Description'),
+              TextField(
+                textAlign: TextAlign.center,
+                autofocus: true,
+                controller: _descriptioncontroller,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text('Attachment'),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                  child: GestureDetector(
+                      onTap: () {
+                        pickfile();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            right: 70, left: 70, top: 5, bottom: 5),
+                        child: Container(
+                            color: Colors.black,
+                            child: const ListTile(
+                              iconColor: Colors.white,
+                              leading: Icon(Icons.attach_file),
+                              title: Text(
+                                'Add attachmets',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )),
+                      ))),
+              if (fileToDisplay != null)
+                Row(
+                  children: [
+                    Flexible(
+                        child: Text(
+                      FileName!,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    )),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            FileName = null;
+                            pickedfile = null;
+                            fileToDisplay = null;
+                          });
+                        },
+                        icon: Icon(Icons.delete))
+                  ],
+                )
+              else
+                const SizedBox(),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10, top: 70),
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular((12)),
+                              color: Colors.red,
                             ),
+                            child: const Center(
+                                child: Text(
+                              'cancel',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            )),
                           )),
-                    ))),
-            if (fileToDisplay != null)
-              Row(
-                children: [
-                  Flexible(
-                      child: Text(
-                    FileName!,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  )),
+                    ),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
-                  IconButton(
-                      onPressed: () {
-                        setState(() {
-                          FileName = null;
-                          pickedfile = null;
-                          fileToDisplay = null;
-                        });
-                      },
-                      icon: Icon(Icons.delete))
-                ],
-              )
-            else
-              const SizedBox(),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10, top: 70),
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Container(
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular((12)),
-                            color: Colors.red,
-                          ),
-                          child: const Center(
-                              child: Text(
-                            'cancel',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          )),
-                        )),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : Expanded(
-                        child: GestureDetector(
-                          onTap: () async {
-                            if (fileToDisplay != null) {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              int count = await getDocumentCount();
-                              if (formkey.currentState!.validate()) {
-                                sendEmail(
-                                    email: user.email ?? '',
-                                    subject: _querycontroller.text,
-                                    message: '$count');
-                                Submit(
-                                  user.email ?? 'not entered',
-                                  _querycontroller.text,
-                                  _descriptioncontroller.text,
-                                  fileToDisplay!.path,
-                                ).then((value) {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                  Navigator.pop(context);
+                  isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : Expanded(
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (fileToDisplay != null) {
+                                setState(() {
+                                  isLoading = true;
                                 });
+                                int count = await getDocumentCount();
+                                if (formkey.currentState!.validate()) {
+                                  sendEmail(
+                                      email: user.email ?? '',
+                                      subject: _querycontroller.text,
+                                      message: '$count');
+                                  Submit(
+                                    user.email ?? 'not entered',
+                                    _querycontroller.text,
+                                    _descriptioncontroller.text,
+                                    fileToDisplay!.path,
+                                  ).then((value) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    Navigator.pop(context);
+                                  });
+                                } else {
+                                  isLoading = false;
+                                }
                               } else {
-                                isLoading = false;
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const Center(
+                                        child: AlertDialog(
+                                      content: Text(
+                                        'An attachment is required!',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ));
+                                  },
+                                );
                               }
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const Center(
-                                      child: AlertDialog(
-                                    content: Text(
-                                      'An attachment is required!',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  ));
-                                },
-                              );
-                            }
-                          },
-                          child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular((12)),
-                                  color: Colors.green,
-                                ),
-                                child: const Center(
-                                    child: Text(
-                                  'submit',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                            },
+                            child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Container(
+                                  padding: const EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular((12)),
+                                    color: Colors.green,
                                   ),
+                                  child: const Center(
+                                      child: Text(
+                                    'submit',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  )),
                                 )),
-                              )),
+                          ),
                         ),
-                      ),
-              ]),
-            )
-          ]),
+                ]),
+              )
+            ]),
+          ),
         ),
       ),
     );

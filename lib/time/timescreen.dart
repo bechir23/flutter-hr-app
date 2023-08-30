@@ -28,7 +28,7 @@ class _timescreenState extends State<timescreen> {
           },
         ),
         title: const Text(
-          'Organization',
+          'Time Tracker',
           style: TextStyle(color: Colors.white, fontSize: 40),
         ),
         centerTitle: true,
