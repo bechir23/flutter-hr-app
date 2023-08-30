@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:myapp/files/folderdata.dart';
+import 'package:myapp/files/fileindex.dart';
+import 'package:myapp/files/image.dart';
+import 'package:myapp/files/pdfpage.dart';
 import 'package:provider/provider.dart';
 
 class Organizationdetails extends StatefulWidget {
@@ -32,7 +31,8 @@ class _OrganizationdetailsState extends State<Organizationdetails> {
           Expanded(
               child: IconButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Provider.of<fileindex>(context, listen: false).index = 1;
+                    Navigator.pushNamed(context, 'file');
                   },
                   icon: const Icon(Icons.exit_to_app_rounded))),
           const SizedBox(
@@ -75,6 +75,10 @@ class _OrganizationdetailsState extends State<Organizationdetails> {
                                               .collection('organization')
                                               .doc(widget.d)
                                               .delete();
+                                          Provider.of<fileindex>(context,
+                                                  listen: false)
+                                              .index = 0;
+
                                           Navigator.pushNamed(context, 'file');
                                         },
                                         child: Padding(
@@ -92,7 +96,7 @@ class _OrganizationdetailsState extends State<Organizationdetails> {
                                     Expanded(
                                       child: GestureDetector(
                                         onTap: () {
-                                          Navigator.pushNamed(context, 'file');
+                                          Navigator.pop(context);
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(12.0),
@@ -181,34 +185,37 @@ class _OrganizationdetailsState extends State<Organizationdetails> {
               GestureDetector(
                 onTap: () {
                   setattachment();
+                  final String? filePath = widget.m['path'];
+                  if (filePath != null) {
+                    if (filePath.endsWith('.pdf')) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Pdfpage(
+                            filePath: filePath,
+                          ),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => imagepage(
+                            filePath: filePath,
+                          ),
+                        ),
+                      );
+                    }
+                  } else {}
                 },
-                child: const Text('File Attachment'),
-              ),
-              if (_showAttachment)
-                Expanded(
-                  child: getattachment(),
+                child: const Text(
+                  'Clik Here',
+                  style: TextStyle(color: Colors.red),
                 ),
+              ),
             ]),
       ),
     );
-  }
-
-  Widget getattachment() {
-    final String? filePath = widget.m['path'];
-    if (filePath != null) {
-      if (filePath.endsWith('.pdf')) {
-        return PDFView(
-          filePath: filePath,
-        );
-      } else {
-        return Image.file(
-          File(filePath),
-          height: 200,
-        );
-      }
-    } else {
-      return Container();
-    }
   }
 
   void setattachment() {

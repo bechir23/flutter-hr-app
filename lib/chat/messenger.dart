@@ -233,7 +233,7 @@ class _messengerState extends State<messenger> {
                 onSubmitted: (value) {
                   if (value.isNotEmpty) {
                     SendMessage(value, DateTime.now(), user.email!, widget.m);
-                    value = '';
+                    _messageController.text = '';
                   }
                 },
                 maxLines: null,

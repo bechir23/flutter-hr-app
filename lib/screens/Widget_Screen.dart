@@ -28,17 +28,17 @@ class _TasksScreenState extends State<TasksScreen> {
           height: 60,
           destinations: const [
             NavigationDestination(
-                icon: Icon(Icons.room_service_outlined),
+                icon: Icon(Icons.menu_book_outlined),
                 label: 'Services',
-                selectedIcon: Icon(Icons.room_service)),
+                selectedIcon: Icon(Icons.menu)),
             NavigationDestination(
-                icon: Icon(Icons.messenger),
+                icon: Icon(Icons.messenger_outline_outlined),
                 label: 'MessageMe',
-                selectedIcon: Icon(Icons.approval)),
+                selectedIcon: Icon(Icons.messenger)),
             NavigationDestination(
-                icon: Icon(Icons.settings_accessibility_outlined),
+                icon: Icon(Icons.settings_display_outlined),
                 label: 'Settings',
-                selectedIcon: Icon(Icons.settings_accessibility)),
+                selectedIcon: Icon(Icons.settings_display)),
           ]),
       // appBar: AppBar(backgroundColor: const Color.fromARGB(255, 238, 35, 103),
       // centerTitle: true,

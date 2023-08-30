@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:myapp/files/image.dart';
+import 'package:myapp/files/pdfpage.dart';
 
 class jobdetails extends StatefulWidget {
   final Map<String, dynamic> m;
@@ -186,34 +188,37 @@ class _jobdetailsState extends State<jobdetails> {
               GestureDetector(
                 onTap: () {
                   setattachment();
+                  final String? filePath = widget.m['path'];
+                  if (filePath != null) {
+                    if (filePath.endsWith('.pdf')) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Pdfpage(
+                            filePath: filePath,
+                          ),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => imagepage(
+                            filePath: filePath,
+                          ),
+                        ),
+                      );
+                    }
+                  } else {}
                 },
-                child: const Text('File Attachment'),
-              ),
-              if (_showAttachment)
-                Expanded(
-                  child: getattachment(),
+                child: const Text(
+                  'Clik Here',
+                  style: TextStyle(color: Colors.red),
                 ),
+              ),
             ]),
       ),
     );
-  }
-
-  Widget getattachment() {
-    final String? filePath = widget.m['path'];
-    if (filePath != null) {
-      if (filePath.endsWith('.pdf')) {
-        return PDFView(
-          filePath: filePath,
-        );
-      } else {
-        return Image.file(
-          File(filePath),
-          height: 200,
-        );
-      }
-    } else {
-      return Container();
-    }
   }
 
   void setattachment() {

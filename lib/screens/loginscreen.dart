@@ -10,7 +10,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _emailcontroller = TextEditingController();
-  bool show = true;
+  bool show = false;
   final _passcontroller = TextEditingController();
   @override
   void dispose() {

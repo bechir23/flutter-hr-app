@@ -74,11 +74,11 @@ import 'files/folder.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 
-Future <void> main() async {
-  
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,);
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const Myapp());
 }
 
@@ -88,86 +88,113 @@ class Myapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [  ChangeNotifierProvider(   create: (context) => traveldata()),
-                    ChangeNotifierProvider(   create: (context) => detailsdata()),
-ChangeNotifierProvider(create:(context) => fileview(),),ChangeNotifierProvider(create:(context) => projectdata(),),
-ChangeNotifierProvider(create:(context) => yesno(),),
-ChangeNotifierProvider(create:(context) => assets(),),
-ChangeNotifierProvider(create:(context) => medicaldata(),),
-ChangeNotifierProvider(create: (context)=>pos()),
-                    ChangeNotifierProvider(   create: (context) => folderdata()),
-                    ChangeNotifierProvider(   create: (context) => taskpos()),
+        providers: [
+          ChangeNotifierProvider(create: (context) => traveldata()),
+          ChangeNotifierProvider(create: (context) => detailsdata()),
+          ChangeNotifierProvider(
+            create: (context) => fileview(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => projectdata(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => yesno(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => assets(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => medicaldata(),
+          ),
+          ChangeNotifierProvider(create: (context) => pos()),
+          ChangeNotifierProvider(create: (context) => folderdata()),
+          ChangeNotifierProvider(create: (context) => taskpos()),
+          ChangeNotifierProvider(create: (context) => check())
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: debugDisableShadows,
+          home: const auth(), //TasksScreen(),// auth(),
+          // const ,//Scrollbar(isAlwaysShown:true,child: TasksScreen()),
+          routes: {
+            AddTask.screenroute: (context) => const AddTask(),
+            Degree.screenroute: (context) => const Degree(),
+            TaskDetails.screenroute: (context) => const TaskDetails(
+                  m: {},
+                  d: '',
+                  i: 0,
+                ),
+            auth.screenroute: (context) => const auth(),
+            signup.screenroute: (context) => const signup(),
+            reset.screenroute: (context) => const reset(),
+            travelscreen.screenroute: (context) => const travelscreen(),
+            travelrequest.screenroute: (context) => const travelrequest(),
+            travelexpense.screenroute: (context) => const travelexpense(),
+            addexpenser.screenroute: (context) => const addexpenser(),
+            choosetravel.screenroute: (context) => choosetravel(
+                  onAAndBChanged: (String newA, String newB) {},
+                ),
+            folder.screenroute: (context) => const folder(),
+            AddFILE.screenroute: (context) => const AddFILE(),
+            Organizationdetails.screenroute: (context) =>
+                const Organizationdetails(m: {}, d: ''),
+            view.screenroute: (context) => const view(),
 
-      ChangeNotifierProvider(   create: (context) => check())
-],
-      child: MaterialApp(
-       
-        
-        debugShowCheckedModeBanner: debugDisableShadows,
-        home:const auth(),//TasksScreen(),// auth(),
-        // const ,//Scrollbar(isAlwaysShown:true,child: TasksScreen()),
-       routes: {AddTask.screenroute :(context) => const AddTask(),
-       Degree.screenroute:(context) => const Degree(),
-       TaskDetails.screenroute:(context) => const  TaskDetails(m:{},d:'',i: 0,),
-       auth.screenroute:(context) => const auth(),
-       signup.screenroute:(context) => const signup(),
-              reset.screenroute:(context) => const reset(),
-              travelscreen.screenroute:(context) => const travelscreen(),
-              travelrequest.screenroute:(context) => const travelrequest(),
-              travelexpense.screenroute:(context) => const travelexpense(),
-                                        addexpenser.screenroute:(context) => const addexpenser(),
-   choosetravel.screenroute: (context) => choosetravel( onAAndBChanged: (String newA, String newB) {  },),
-                                           folder.screenroute:(context) => const folder(),
-                                           AddFILE.screenroute:(context) => const AddFILE(),
- Organizationdetails.screenroute:(context) => const Organizationdetails(m: {}, d: ''),
- view.screenroute:(context) => const view(),
-
- employeedetails.screenroute:(context) => const employeedetails(m:{},d:''),
-organizationscreen.screenroute:(context) => const organizationscreen(),
-Company.screenroute:(context) => const Company(),
-addexit.screenroute:(context) => const addexit(),
-exitdetails.screenroute:(context) => const exitdetails(m: {}, d: ''),
-questions.screenroute:(context) => const questions(),
-casesdetails.screenroute:(context) => const casesdetails(m: {}, d: ''),
-casesscreen.screenroute:(context) => const casesscreen(),
-addquestion.screenroute:(context) => const addquestion(),
-change.screenroute:(context) => const change(),
-          // a: 'default_a_value', b: 'default_b_value',
-          CompensationScreen.screenroute:(context) => const CompensationScreen()  ,
-          experiencedetails.screenroute:(context) => const experiencedetails(m: {}, d: ''),
-          experienceletter.screenroute:(context) => const experienceletter(),
-          bonafidedetails.screenroute:(context) => const bonafidedetails(m: {}, d: ''),
-          bonafideletter.screenroute:(context) => const bonafideletter(),
- letterscreen.screenroute:(context) => const letterscreen(), 
-  proofdetails.screenroute:(context) => const proofdetails(m: {}, d: ''),
-  addressproof.screenroute:(context) => const addressproof(),
-  asset.screenroute:(context) => const asset(),
-  assetdetails.screenroute:(context) => const assetdetails(m: {}, d: ''),
-  choosetype.screenroute:(context) => const choosetype(),
-  benefit.screenroute:(context) => const benefit(),
-  addmedical.screenroute:(context) => const addmedical(),
-  colldept.screenroute:(context) => const colldept(),
-  expensedetails.screenroute:(context) => const expensedetails(m: {}, d: '', l: []),
-  exit.screenroute:(context) => const exit(),
-  attendance.screenroute:(context) => attendance(),
-TasksList.screenroute:(context) => const TasksList(),
-TasksScreen.screenroute:(context)=> const TasksScreen(),
-leave.screenroute:(context) => const leave(),
-leaverequest.screenroute:(context) => const leaverequest(),
-job.screenroute:(context) => const job(),
-project.screenroute:(context) => const project(),
-timescreen.screenroute:(context) => const timescreen(),
-client.screenroute:(context) => const client(),
-clientview.screenroute:(context) => const clientview(),
-projectview.screenroute:(context) => const projectview(),
-addjob.screenroute:(context) => const addjob(),
-addclient.screenroute:(context) => const addclient(),
-addproject.screenroute:(context) => const addproject(),
-addtimelog.screenroute:(context) => const addtimelog(),
-timelog.screenroute:(context) => const timelog(),
-jobview.screenroute:(context) => const jobview(),
-chatview.screenroute:(context) => const chatview(),
-  },)
-    );}}    
-    
-
+            employeedetails.screenroute: (context) =>
+                const employeedetails(m: {}, d: ''),
+            organizationscreen.screenroute: (context) =>
+                const organizationscreen(),
+            Company.screenroute: (context) => const Company(),
+            addexit.screenroute: (context) => const addexit(),
+            exitdetails.screenroute: (context) =>
+                const exitdetails(m: {}, d: ''),
+            questions.screenroute: (context) => const questions(),
+            casesdetails.screenroute: (context) =>
+                const casesdetails(m: {}, d: ''),
+            casesscreen.screenroute: (context) => const casesscreen(),
+            addquestion.screenroute: (context) => const addquestion(),
+            change.screenroute: (context) => const change(),
+            // a: 'default_a_value', b: 'default_b_value',
+            CompensationScreen.screenroute: (context) =>
+                const CompensationScreen(),
+            experiencedetails.screenroute: (context) =>
+                const experiencedetails(m: {}, d: ''),
+            experienceletter.screenroute: (context) => const experienceletter(),
+            bonafidedetails.screenroute: (context) =>
+                const bonafidedetails(m: {}, d: ''),
+            bonafideletter.screenroute: (context) => const bonafideletter(),
+            letterscreen.screenroute: (context) => const letterscreen(),
+            proofdetails.screenroute: (context) =>
+                const proofdetails(m: {}, d: ''),
+            addressproof.screenroute: (context) => const addressproof(),
+            asset.screenroute: (context) => const asset(),
+            assetdetails.screenroute: (context) =>
+                const assetdetails(m: {}, d: ''),
+            choosetype.screenroute: (context) => const choosetype(),
+            benefit.screenroute: (context) => const benefit(),
+            addmedical.screenroute: (context) => const addmedical(),
+            colldept.screenroute: (context) => const colldept(),
+            expensedetails.screenroute: (context) =>
+                const expensedetails(m: {}, d: '', l: []),
+            exit.screenroute: (context) => const exit(),
+            attendance.screenroute: (context) => attendance(),
+            TasksList.screenroute: (context) => const TasksList(),
+            TasksScreen.screenroute: (context) => const TasksScreen(),
+            leave.screenroute: (context) => const leave(),
+            leaverequest.screenroute: (context) => const leaverequest(),
+            job.screenroute: (context) => const job(),
+            project.screenroute: (context) => const project(),
+            timescreen.screenroute: (context) => const timescreen(),
+            client.screenroute: (context) => const client(),
+            clientview.screenroute: (context) => const clientview(),
+            projectview.screenroute: (context) => const projectview(),
+            addjob.screenroute: (context) => const addjob(),
+            addclient.screenroute: (context) => const addclient(),
+            addproject.screenroute: (context) => const addproject(),
+            addtimelog.screenroute: (context) => const addtimelog(),
+            timelog.screenroute: (context) => const timelog(),
+            jobview.screenroute: (context) => const jobview(),
+            chatview.screenroute: (context) => const chatview(),
+          },
+        ));
+  }
+}

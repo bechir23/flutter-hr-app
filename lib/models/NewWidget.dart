@@ -14,7 +14,7 @@ class NewTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(50),
+      padding: const EdgeInsets.all(10),
       child: GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, press);

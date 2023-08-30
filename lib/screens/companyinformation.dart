@@ -63,7 +63,6 @@ class _CompanyState extends State<Company> {
                     color: Colors.white,
                   ),
                   child: TextFormField(
-                      textAlign: TextAlign.center,
                       autofocus: true,
                       controller: _namecontroller,
                       validator: (value) {

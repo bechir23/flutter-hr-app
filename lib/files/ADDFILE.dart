@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/files/fileindex.dart';
 import 'package:myapp/files/fileview.dart';
 import 'package:myapp/files/folderdata.dart';
 import 'package:provider/provider.dart';
@@ -18,17 +19,16 @@ class AddFILE extends StatefulWidget {
 }
 
 class _AddFILEState extends State<AddFILE> {
-  int index = 0;
   final pages = [const organizationfiles(), const employeefiles()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[index],
+      body: pages[Provider.of<fileindex>(context, listen: false).index],
       bottomNavigationBar: NavigationBar(
-          selectedIndex: index,
+          selectedIndex: Provider.of<fileindex>(context, listen: false).index,
           onDestinationSelected: (index) => setState(() {
-                this.index = index;
+                Provider.of<fileindex>(context, listen: false).index = index;
               }),
           height: 60,
           destinations: const [
@@ -65,9 +65,11 @@ class _AddFILEState extends State<AddFILE> {
                     padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).viewInsets.bottom,
                     ),
-                    child: index == 0
-                        ? const Addorganization()
-                        : const Addemployee(),
+                    child:
+                        Provider.of<fileindex>(context, listen: false).index ==
+                                0
+                            ? const Addorganization()
+                            : const Addemployee(),
                   )));
         },
         backgroundColor: Colors.white,
