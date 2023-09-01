@@ -42,114 +42,120 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 224, 101, 142),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'images/hr.jpg',
-                height: 150,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text('SIGN IN',
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                  )),
-              const Text(
-                'WELCOME BACK',
-                style: TextStyle(fontSize: 18),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular((12)),
-                      color: Colors.white,
-                    ),
-                    child: TextField(
-                      controller: _emailcontroller,
-                      decoration: const InputDecoration(hintText: 'EMAIL'),
+    return Listener(
+      onPointerDown: (_) {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 224, 101, 142),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'images/hr.jpg',
+                  height: 150,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text('SIGN IN',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
                     )),
-              ),
-              Padding(
+                const Text(
+                  'WELCOME BACK',
+                  style: TextStyle(fontSize: 18),
+                ),
+                Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular((12)),
-                      color: Colors.white,
-                    ),
-                    child: Row(children: [
-                      Expanded(
-                          child: TextField(
-                        obscureText: !show,
-                        controller: _passcontroller,
-                        decoration: const InputDecoration(hintText: 'PASSWORD'),
-                      )),
-                      const SizedBox(
-                        width: 10,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular((12)),
+                        color: Colors.white,
                       ),
-                      IconButton(
-                          onPressed: () {
-                            setState(() {
-                              show = !show;
-                            });
-                          },
-                          icon: show
-                              ? const Icon(Icons.visibility)
-                              : const Icon(Icons.visibility_off))
-                    ]),
-                  )),
-              const SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: SignIn,
-                child: Padding(
+                      child: TextField(
+                        controller: _emailcontroller,
+                        decoration: const InputDecoration(hintText: 'EMAIL'),
+                      )),
+                ),
+                Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular((12)),
-                        color: Colors.grey,
+                        color: Colors.white,
                       ),
-                      child: const Text(
-                        'SIGN IN',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
+                      child: Row(children: [
+                        Expanded(
+                            child: TextField(
+                          obscureText: !show,
+                          controller: _passcontroller,
+                          decoration:
+                              const InputDecoration(hintText: 'PASSWORD'),
+                        )),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                show = !show;
+                              });
+                            },
+                            icon: show
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off))
+                      ]),
                     )),
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                const Text(
-                  'Not a member yet?',
-                  style: TextStyle(color: Colors.black, fontSize: 18),
+                const SizedBox(
+                  height: 20,
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'signup');
-                  },
-                  child: const Text(
-                    'Sign Up Now',
-                    style: TextStyle(color: Colors.green, fontSize: 18),
+                GestureDetector(
+                  onTap: SignIn,
+                  child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular((12)),
+                          color: Colors.green,
+                        ),
+                        child: const Text(
+                          'SIGN IN',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      )),
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  const Text(
+                    'Not a member yet?',
+                    style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
-                )
-              ]),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'reset');
-                  },
-                  child: const Text(
-                    'Forgot password?',
-                    style: TextStyle(color: Colors.green, fontSize: 18),
-                  )),
-            ],
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'signup');
+                    },
+                    child: const Text(
+                      'Sign Up Now',
+                      style: TextStyle(color: Colors.green, fontSize: 18),
+                    ),
+                  )
+                ]),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'reset');
+                    },
+                    child: const Text(
+                      'Forgot password?',
+                      style: TextStyle(color: Colors.green, fontSize: 18),
+                    )),
+              ],
+            ),
           ),
         ),
       ),

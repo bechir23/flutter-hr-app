@@ -33,106 +33,112 @@ class _colldeptState extends State<colldept> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular((12)),
-                  color: Colors.white,
-                ),
-                child: TextField(
-                  textInputAction: TextInputAction.search,
-                  controller: _searchcontroller,
-                  onChanged: (value) {
-                    filterData(value);
-                  },
-                  decoration: const InputDecoration(
-                      suffixIcon: Icon(Icons.search),
-                      hintText: 'Search for colleagues...'),
-                )),
-          ),
-          Builder(
-            builder: (context) => Expanded(
-              child: ListView.builder(
-                  itemCount: filteredcoll.length,
-                  itemBuilder: (context, index) {
-                    return TextButton(
-                      onPressed: () async {
-                        // update();
-                        FirebaseFirestore firestore =
-                            FirebaseFirestore.instance;
+    return Listener(
+      onPointerDown: (_) {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular((12)),
+                    color: Colors.white,
+                  ),
+                  child: TextField(
+                    textInputAction: TextInputAction.search,
+                    controller: _searchcontroller,
+                    onChanged: (value) {
+                      filterData(value);
+                    },
+                    decoration: const InputDecoration(
+                        suffixIcon: Icon(Icons.search),
+                        hintText: 'Search for colleagues...'),
+                  )),
+            ),
+            Builder(
+              builder: (context) => Expanded(
+                child: ListView.builder(
+                    itemCount: filteredcoll.length,
+                    itemBuilder: (context, index) {
+                      return TextButton(
+                        onPressed: () async {
+                          // update();
+                          FirebaseFirestore firestore =
+                              FirebaseFirestore.instance;
 
-                        QuerySnapshot<Map<String, dynamic>> querySnapshot =
-                            await firestore
-                                .collection('colleague')
-                                .where('email', isEqualTo: filteredcoll[index])
-                                .limit(1)
-                                .get();
+                          QuerySnapshot<Map<String, dynamic>> querySnapshot =
+                              await firestore
+                                  .collection('colleague')
+                                  .where('email',
+                                      isEqualTo: filteredcoll[index])
+                                  .limit(1)
+                                  .get();
 
-                        if (querySnapshot.docs.isNotEmpty) {
-                          QueryDocumentSnapshot<Map<String, dynamic>>
-                              documentSnapshot = querySnapshot.docs[0];
-                          Map<String, dynamic> data = documentSnapshot.data();
-                          BuildContext detailscontext = context;
+                          if (querySnapshot.docs.isNotEmpty) {
+                            QueryDocumentSnapshot<Map<String, dynamic>>
+                                documentSnapshot = querySnapshot.docs[0];
+                            Map<String, dynamic> data = documentSnapshot.data();
+                            BuildContext detailscontext = context;
 
-                          Future.delayed(Duration.zero, () {
-                            navigateToColldetails(detailscontext, data);
-                          });
-                        } else {
-                          //print("Document not found");
-                        }
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          padding: const EdgeInsets.all(12.0),
-                          decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 204, 101, 178),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              child: Text(
-                                filteredcoll[index]
-                                    .toString()
-                                    .substring(0, 2)
-                                    .toUpperCase(),
-                                style: const TextStyle(color: Colors.blue),
+                            Future.delayed(Duration.zero, () {
+                              navigateToColldetails(detailscontext, data);
+                            });
+                          } else {
+                            //print("Document not found");
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 204, 101, 178),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: Text(
+                                  filteredcoll[index]
+                                      .toString()
+                                      .substring(0, 2)
+                                      .toUpperCase(),
+                                  style: const TextStyle(color: Colors.blue),
+                                ),
                               ),
+                              // ignore: dead_code
+                              title: Text(
+                                filteredcoll[index],
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              //        subtitle: Text('${data['separationdate']?.toDate().year}-${data['separationdate']?.toDate().month.toString().padLeft(2, '0')}-${data['separationdate']?.toDate().day.toString().padLeft(2, '0')} ${data['separationdate']?.toDate().hour.toString().padLeft(2, '0')}:${data['separationdate']?.toDate().minute.toString().padLeft(2, '0')}:${data['separationdate']?.toDate().second.toString().padLeft(2, '0')}',style: const TextStyle(color: Colors.white),),
                             ),
-                            // ignore: dead_code
-                            title: Text(
-                              filteredcoll[index],
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            //        subtitle: Text('${data['separationdate']?.toDate().year}-${data['separationdate']?.toDate().month.toString().padLeft(2, '0')}-${data['separationdate']?.toDate().day.toString().padLeft(2, '0')} ${data['separationdate']?.toDate().hour.toString().padLeft(2, '0')}:${data['separationdate']?.toDate().minute.toString().padLeft(2, '0')}:${data['separationdate']?.toDate().second.toString().padLeft(2, '0')}',style: const TextStyle(color: Colors.white),),
                           ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+              ),
             ),
+          ],
+        ),
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            'Colleagues',
+            style: TextStyle(color: Colors.white, fontSize: 40),
           ),
-        ],
-      ),
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Colleagues',
-          style: TextStyle(color: Colors.white, fontSize: 40),
+          backgroundColor: const Color.fromARGB(255, 223, 130, 161),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.exit_to_app)),
         ),
         backgroundColor: const Color.fromARGB(255, 223, 130, 161),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.exit_to_app)),
       ),
-      backgroundColor: const Color.fromARGB(255, 223, 130, 161),
     );
   }
 

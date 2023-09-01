@@ -31,6 +31,7 @@ import 'package:myapp/compensation/medical.dart';
 import 'package:myapp/compensation/typeassets.dart';
 import 'package:myapp/files/ADDFILE.dart';
 import 'package:myapp/files/employeedetails.dart';
+import 'package:myapp/files/fileindex.dart';
 import 'package:myapp/files/fileview.dart';
 import 'package:myapp/files/folderdata.dart';
 import 'package:myapp/files/organizationdetails.dart';
@@ -50,6 +51,7 @@ import 'package:myapp/screens/Signup.dart';
 import 'package:myapp/screens/Widget_Screen.dart';
 import 'package:myapp/screens/companyinformation.dart';
 import 'package:myapp/screens/resetpass.dart';
+import 'package:myapp/settings/settingslist.dart';
 import 'package:myapp/task/ADDTASK.dart';
 import 'package:myapp/task/Priority.dart';
 import 'package:myapp/task/taskdetails.dart';
@@ -106,10 +108,12 @@ class Myapp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => medicaldata(),
           ),
+          ChangeNotifierProvider(create: (context) => fileindex()),
           ChangeNotifierProvider(create: (context) => pos()),
           ChangeNotifierProvider(create: (context) => folderdata()),
           ChangeNotifierProvider(create: (context) => taskpos()),
-          ChangeNotifierProvider(create: (context) => check())
+          ChangeNotifierProvider(create: (context) => check()),
+          ChangeNotifierProvider(create: (context) => setwidgets())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: debugDisableShadows,

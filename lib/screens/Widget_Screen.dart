@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/chat/chatview.dart';
 import 'package:myapp/models/widgetlist.dart';
+import 'package:myapp/settings/settings.dart';
 import 'package:provider/provider.dart';
 
 import '../models/index.dart';
@@ -15,7 +16,7 @@ class TasksScreen extends StatefulWidget {
 
 class _TasksScreenState extends State<TasksScreen> {
   // int index=0;
-  final pages = [const TasksList(), const chatview(), const Text('seetings')];
+  final pages = [const TasksList(), const chatview(), const settings()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
