@@ -15,7 +15,9 @@ class setwidgets extends ChangeNotifier {
           Icons.umbrella,
           color: Colors.red,
         ),
-        []),
+        [
+          ['Leave', 'leave']
+        ]),
     newsetwidget(
         'Time Tracker',
         const Icon(

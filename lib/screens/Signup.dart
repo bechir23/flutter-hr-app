@@ -14,8 +14,8 @@ class signup extends StatefulWidget {
 class _signupState extends State<signup> {
   final _emailcontroller = TextEditingController();
   final _passcontroller = TextEditingController();
-  bool show = true;
-  bool show1 = true;
+  bool show = false;
+  bool show1 = false;
   final _confirmpasscontroller = TextEditingController();
   @override
   void dispose() {
