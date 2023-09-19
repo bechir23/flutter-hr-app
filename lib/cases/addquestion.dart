@@ -35,6 +35,17 @@ class _addquestionState extends State<addquestion> {
     }
   }
 
+  Future<void> SendEmails(String a, String b, String c) async {
+    final QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('colleague').get();
+    List<String> l = querySnapshot.docs
+        .map((QueryDocumentSnapshot doc) => doc.get('email') as String)
+        .toList();
+    for (String i in l) {
+      sendEmail(name: i, email: a, subject: b, message: c);
+    }
+  }
+
   FilePickerResult? result;
   String? FileName;
   PlatformFile? pickedfile;
@@ -240,10 +251,12 @@ class _addquestionState extends State<addquestion> {
                                 });
                                 int count = await getDocumentCount();
                                 if (formkey.currentState!.validate()) {
-                                  sendEmail(
-                                      email: user.email ?? '',
-                                      subject: _querycontroller.text,
-                                      message: '$count');
+                                  SendEmails(user.email ?? '',
+                                      _querycontroller.text, '$count');
+                                  //  sendEmail(
+                                  //    email: user.email ?? '',
+                                  // subject: _querycontroller.text,
+                                  //  message: '$count');
                                   Submit(
                                     user.email ?? 'not entered',
                                     _querycontroller.text,
@@ -303,7 +316,7 @@ class _addquestionState extends State<addquestion> {
   }
 
   Future<void> sendEmail({
-    // required String name,
+    required String name,
     required String email,
     required String subject,
     required String message,
@@ -323,7 +336,7 @@ class _addquestionState extends State<addquestion> {
         'template_id': templateId,
         'user_id': userId,
         'template_params': {
-          //  'user_name': name,
+          'user_name': name,
           'user_email': email,
           'user_subject': subject,
           'user_message': message,

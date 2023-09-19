@@ -156,7 +156,6 @@ class _chatviewState extends State<chatview> {
     final List<String> mycoll = querySnapshot.docs
         .map((QueryDocumentSnapshot doc) => doc.get('email') as String)
         .toList();
-    ;
 
     setState(() {
       coll = mycoll;

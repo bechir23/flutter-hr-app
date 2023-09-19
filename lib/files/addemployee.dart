@@ -35,6 +35,18 @@ class _AddemployeeState extends State<Addemployee> {
   final _foldercontroller = TextEditingController();
 
 // ignore: non_constant_identifier_names
+  Future<void> SendEmails(String a, String b, String c, String d) async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('colleague').get();
+    List<String> l = querySnapshot.docs
+        .map((QueryDocumentSnapshot doc) => doc.get('email') as String)
+        .toList();
+
+    for (String i in l) {
+      sendEmail(name: a, email: b, subject: c, message: d, recipient: i);
+    }
+  }
+
   void pickfile() async {
     try {
       result = await FilePicker.platform.pickFiles(
@@ -222,13 +234,20 @@ class _AddemployeeState extends State<Addemployee> {
                                 isLoading = true;
                               });
                               if (formkey.currentState!.validate()) {
-                                sendEmail(
-                                    name: _descriptioncontroller.text,
-                                    email: user.email ?? '',
-                                    subject: FileName!,
-                                    message: Provider.of<fileview>(context,
+                                SendEmails(
+                                    _descriptioncontroller.text,
+                                    user.email ?? '',
+                                    FileName!,
+                                    Provider.of<fileview>(context,
                                             listen: false)
                                         .selected);
+                                // sendEmail(
+                                //   name: _descriptioncontroller.text,
+                                // email: user.email ?? '',
+                                // subject: FileName!,
+                                //message: Provider.of<fileview>(context,
+                                //      listen: false)
+                                // .selected);
                                 Submit(
                                         _namecontroller.text,
                                         _descriptioncontroller.text,
@@ -289,12 +308,12 @@ class _AddemployeeState extends State<Addemployee> {
     );
   }
 
-  Future<void> sendEmail({
-    required String name,
-    required String email,
-    required String subject,
-    required String message,
-  }) async {
+  Future<void> sendEmail(
+      {required String name,
+      required String email,
+      required String subject,
+      required String message,
+      required String recipient}) async {
     const serviceId = 'service_gk9vpok';
     const templateId = 'template_ek83t8g';
     const userId = 'GEr9X-zy0J9zmfseB';
@@ -314,6 +333,7 @@ class _AddemployeeState extends State<Addemployee> {
           'user_email': email,
           'user_subject': subject,
           'user_message': message,
+          'user_recipient': recipient,
         },
       }),
     );

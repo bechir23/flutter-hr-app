@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/files/fileview.dart';
 import 'package:myapp/files/folderdata.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -33,6 +34,18 @@ class _AddorganizationState extends State<Addorganization> {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
 // ignore: non_constant_identifier_names
+  Future<void> SendEmails(String a, String b, String c, String d) async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('colleague').get();
+    List<String> l = querySnapshot.docs
+        .map((QueryDocumentSnapshot doc) => doc.get('email') as String)
+        .toList();
+
+    for (String i in l) {
+      sendEmail(name: a, email: b, subject: c, message: d, recipient: i);
+    }
+  }
+
   void pickfile() async {
     try {
       result = await FilePicker.platform.pickFiles(
@@ -233,13 +246,20 @@ class _AddorganizationState extends State<Addorganization> {
                                 isLoading = true;
                               });
                               if (formkey.currentState!.validate()) {
-                                sendEmail(
-                                    name: _descriptioncontroller.text,
-                                    email: user.email ?? '',
-                                    subject: FileName!,
-                                    message: Provider.of<folderdata>(context,
+                                SendEmails(
+                                    _descriptioncontroller.text,
+                                    user.email ?? '',
+                                    FileName!,
+                                    Provider.of<fileview>(context,
                                             listen: false)
                                         .selected);
+                                // sendEmail(
+                                //   name: _descriptioncontroller.text,
+                                //   email: user.email ?? '',
+                                //  subject: FileName!,
+                                //  message: Provider.of<folderdata>(context,
+                                //        listen: false)
+                                //   .selected);
                                 Submit(
                                         _namecontroller.text,
                                         _descriptioncontroller.text,
@@ -305,6 +325,7 @@ class _AddorganizationState extends State<Addorganization> {
     required String email,
     required String subject,
     required String message,
+    required String recipient,
   }) async {
     const serviceId = 'service_gk9vpok';
     const templateId = 'template_eyje9is';
@@ -325,6 +346,7 @@ class _AddorganizationState extends State<Addorganization> {
           'user_email': email,
           'user_subject': subject,
           'user_message': message,
+          'user_recipient': recipient,
         },
       }),
     );
